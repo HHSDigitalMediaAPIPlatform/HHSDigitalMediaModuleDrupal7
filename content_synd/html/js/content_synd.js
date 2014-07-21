@@ -140,6 +140,9 @@ var CDCContentSynd = function() {
     }
 
     var foundSelectedTitle = false;
+    titleSelect.append($csjq("<option></option>")
+        .attr("value", "")
+        .text("Select Title"));
     for (var i = 0; i < response.results.length; i++) {
       var titleSelect = $csjq('select[name="cdccs_title"]');
 
@@ -183,7 +186,7 @@ var CDCContentSynd = function() {
       previewError();
     }
     loadingPreview(false);
-    $csjq('div[id="cdccs_preview_div"]').html(htmlDecode(response.results.content));
+    $csjq('div[id="cdccs_preview_div"]').html(response.results.content);
 
     showHideContentTitleDesc();
   };
