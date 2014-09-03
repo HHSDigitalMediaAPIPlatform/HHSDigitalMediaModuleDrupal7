@@ -1,0 +1,249 @@
+<?php
+/**
+*
+* @file
+* A block module for displaying HHS content
+*/
+
+/**
+* Implements hook_help()
+*
+* Displays help and module information
+*
+* @param path
+*   Which path of the site we're using to display help
+* @param arg
+*   Array that holds the current path as returned from arg() function
+*/
+function content_synd_help($path, $arg) {
+  switch ($path) {
+    case "admin/help#content_synd":
+      return '<p>' . t("Displays HHS syndicated content") . '</p>';
+      break;
+    case "admin/config/content/content_synd":
+      return '<p>' . t('HHS Digital Media syndicated content items you have created are listed below.  To create a new syndicated item click "Add Syndicated Item"') . '</p>';
+      break;
+  }
+}
+
+
+/**
+* Implements hook_menu()
+*/
+function content_synd_menu() {
+  $items = array();
+  $items['admin/config/content/content_synd'] = array(
+    'title' => 'HHS Digital Media Syndication',
+    'description' => 'Configuration for HHS Digital Media Syndication module',
+    'page callback' => 'content_synd_admin_view',
+    'access arguments' => array('access administration pages'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'content_synd.admin.inc',
+  );
+  $items['admin/config/content/content_synd/add'] = array(
+    'title' => 'Add Syndicated Item',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('content_synd_form'),
+    'access arguments' => array('access administration pages'),
+    'type' => MENU_LOCAL_ACTION,
+    'file' => 'content_synd.admin.inc',
+  );
+  $items['admin/config/content/content_synd/edit/%content_synd_item'] = array(
+    'title' => 'Edit Syndicated Item',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('content_synd_form', 5),
+    'access arguments' => array('access administration pages'),
+    'file' => 'content_synd.admin.inc',
+  );
+  $items['content_synd/item/%content_synd_item'] = array(
+    'page callback' => 'content_synd_page_view',
+    'page arguments' => array(2),
+    'access arguments' => array('access content'),
+    'file' => 'content_synd.pages.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_theme()
+ */
+function content_synd_theme() {
+  return array(
+    'content_synd_jstree' => array(
+      'render element' => 'element',
+    ),
+    'content_synd_preview' => array(
+      'render element' => 'element',
+    ),
+    'content_synd_item' => array(
+      'variables' => array('item' => NULL,),
+    ),
+  );
+}
+
+/**
+* Implements hook_block_info()
+*/
+function content_synd_block_info() {
+  $blocks = array();
+  $result = db_query('SELECT * from {content_synd_item} ORDER BY title');
+  foreach($result as $item) {
+    $blocks['content_synd-' . $item->iid]['info'] = t('!title Syndicated Content', array('!title' => $item->title));
+  }
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ *
+ * Generates blocks for each content syndication item
+ */
+function content_synd_block_view($delta = '') {
+  $block = array();
+  list($type, $id) = explode('-', $delta);
+  switch($type) {
+    case 'content_synd':
+      if ($item = db_query('SELECT * FROM {content_synd_item} WHERE iid = :iid', array(':iid' => $id))->fetchObject()) {
+        $block['subject'] = check_plain($item->title);
+        $block['content'] = theme('content_synd_item', array('item' => $item));
+      } 
+    break;
+  }
+  return $block;
+}
+
+/**
+ * Returns HTML for content syndication embed item
+ */
+function theme_content_synd_item($variables) {
+  $item = $variables['item']; 
+  $id = $item->iid;
+  $embed_code = '<script>'; 
+  $embed_code .= 'function mediaCallback_' . $id . '(response) {';
+  $embed_code .= 'if (response && response.results) {';
+  $embed_code .= 'jQuery(\'#' . $id . '\').html(response.results.content);';
+  if ($item->hide_title == true) {
+    $embed_code .= 'jQuery("span[id=\'cdc_title_' . $item->media_id . '\']").hide();';
+  }
+  if ($item->hide_description == true) {
+    $embed_code .= 'jQuery("p[id=\'cdc_description_' . $item->media_id . '\']").hide();';
+  }
+  $embed_code .= '}';
+  $embed_code .= '}';
+  $embed_code .= 'jQuery(document).ready(function() {';
+  $embed_code .= 'jQuery.ajaxSetup({cache:false});';
+  $embed_code .= 'jQuery.ajax({';
+  $embed_code .= 'url: "' . $item->syndication_url . '",';
+  $embed_code .= 'dataType: "jsonp",';
+  $embed_code .= 'success: mediaCallback_' . $id . ',';
+  $embed_code .= 'error: function(xhr, ajaxOptions, thrownError) {}';
+  $embed_code .= '});';
+  $embed_code .= '});';
+  $embed_code .= '</script>';
+  $embed_code .= '<div id="' . $id . '"></div>';
+  return $embed_code;
+}
+
+
+/**
+ * Implements hook_element_info()
+ */
+function content_synd_element_info() {
+  $types['content_synd_jstree'] = array(
+    '#input' => true,
+    //'#process' => array('content_synd_jstree_process'),
+    //'#element_validate' => array('content_synd_jstree_validate'),
+    '#theme' => 'content_synd_jstree',
+    '#theme_wrappers' => array('form_element'),
+  );
+  $types['content_synd_preview'] = array(
+    '#input' => true,
+    '#theme' => 'content_synd_preview',
+    '#theme_wrappers' => array('form_element'),
+  );
+  return $types;
+}
+
+/**
+ * Theme function for content_synd_jstree form element
+ */
+function theme_content_synd_jstree($variables) {
+  $output = '<div id="' . $variables['element']['#name'] . '_control"></div>';
+  $output .= '<input type="hidden" name="' . $variables['element']['#name'] . '" value="' . $variables['element']['#default_value'] . '"/>';
+  return $output;
+}
+
+/**
+ * Theme function for content_synd_preview form element
+ */
+function theme_content_synd_preview($variables) {
+  $output = '<div id="' . $variables['element']['#name'] .'_div"></div>';
+  $output .= '<input type="hidden" name="' . $variables['element']['#name'] . '" value="' . $variables['element']['#default_value'] . '"/>';
+  return $output;
+}
+
+/**
+* Auto loader for content synd item edit menu
+*/
+function content_synd_item_load($iid) {
+  $content_synd_items = &drupal_static(__FUNCTION__);
+  if (!isset($content_synd_items[$iid])) {
+    $content_synd_items[$iid] = db_query('SELECT * FROM {content_synd_item} where iid = :iid', 
+      array(':iid' => $iid))->fetchObject();
+  }
+  return $content_synd_items[$iid];
+}
+
+/**
+* Save content synd item
+*/
+function content_synd_item_save($item) {
+  if (!empty($item['iid']) && !empty($item['title'])) {
+    db_update('content_synd_item')
+      ->condition('iid', $item['iid'])
+      ->fields(array(
+        'title' => $item['title'],
+        'source' => $item['cdccs_sourceval'],
+        'from_date' => empty($item['cdccs_fromdate']) ? null : strtotime($item['cdccs_fromdate']),
+        'media_types' => implode(',', $item['cdccs_mediatypes']),
+        'topics' => $item['cdccs_topictree'],
+        'media_id' => $item['cdccs_titleval'],
+        'syndication_url' => $item['cdccs_preview'],
+        'strip_images' => $item['cdccs_stripimages'],
+        'strip_scripts' => $item['cdccs_stripscripts'],
+        'strip_anchors' => $item['cdccs_stripanchors'],
+        'strip_comments' => $item['cdccs_stripcomments'],
+        'strip_inline_styles' => $item['cdccs_stripinlinestyles'],
+        'hide_title' => $item['cdccs_hidetitle'],
+        'hide_description' => $item['cdccs_hidedescription'],
+        'encoding' => $item['cdccs_encoding'],
+      ))
+      ->execute();
+  }
+  elseif (!empty($item['iid'])) {
+    db_delete('content_synd_item')
+      ->condition('iid', $item['iid'])
+      ->execute();
+  }
+  elseif (!empty($item['title'])) {
+    $item['iid'] = db_insert('content_synd_item')
+      ->fields(array(
+        'title' => $item['title'],
+        'source' => $item['cdccs_sourceval'],
+        'from_date' => empty($item['cdccs_fromdate']) ? null : strtotime($item['cdccs_fromdate']),
+        'media_types' => implode(',', $item['cdccs_mediatypes']),
+        'topics' => $item['cdccs_topictree'],
+        'media_id' => $item['cdccs_titleval'],
+        'syndication_url' => $item['cdccs_preview'],
+        'strip_images' => $item['cdccs_stripimages'],
+        'strip_scripts' => $item['cdccs_stripscripts'],
+        'strip_anchors' => $item['cdccs_stripanchors'],
+        'strip_comments' => $item['cdccs_stripcomments'],
+        'strip_inline_styles' => $item['cdccs_stripinlinestyles'],
+        'hide_title' => $item['cdccs_hidetitle'],
+        'hide_description' => $item['cdccs_hidedescription'],
+        'encoding' => $item['cdccs_encoding'],
+      ))
+      ->execute();
+  }
+}
