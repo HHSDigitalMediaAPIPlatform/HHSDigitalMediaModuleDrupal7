@@ -8,8 +8,8 @@
 /**
  * Implements hook_schema().
  */
-function content_synd_schema() {
-  $schema['content_synd_item'] = array(
+function hhs_digital_media_syndication_schema() {
+  $schema['hhs_digital_media_syndication_item'] = array(
     'description' => 'Stores HHS Digital Media Syndication Items.',
     'fields' => array(
       'iid'  => array(

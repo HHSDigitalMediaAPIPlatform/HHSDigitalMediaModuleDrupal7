@@ -2,19 +2,19 @@
 
 /**
  * @file
- * Administration page callbacks for the content syndication module.
+ * Administration page callbacks for the hhs digital media syndication module.
  */
 
 /**
- * Page callback: Displays the content syndication module administration page.
+ * Page callback: Displays the hhs digital media syndication module administration page.
  *
  * @return
  *   A HTML-formatted string with administration page content.
  */
-function content_synd_admin_view() {
+function hhs_digital_media_syndication_admin_view() {
   $page = '<h3>' . t('HHS Digital Media Syndication Items') . '</h3>';
 
-  $result = db_query('SELECT * from {content_synd_item} order by title');
+  $result = db_query('SELECT * from {hhs_digital_media_syndication_item} order by title');
   
   $header = array(t('Title'), t('Operations'));
 
@@ -22,8 +22,8 @@ function content_synd_admin_view() {
 
   foreach ($result as $item) {
     $rows[] = array(
-      l($item->title, "content_synd/item/$item->iid"),
-      l(t('edit'), "admin/config/content/content_synd/edit/$item->iid"),
+      l($item->title, "hhs_digital_media_syndication/item/$item->iid"),
+      l(t('edit'), "admin/config/content/hhs_digital_media_syndication/edit/$item->iid"),
     );
   }
 
@@ -31,8 +31,8 @@ function content_synd_admin_view() {
     array(
       'header' => $header,
       'rows' => $rows, 
-      'empty' => t('No content syndication items found.  <a href="@link">Add Syndicated Item</a>.', 
-        array('@link' => url('admin/config/content/content_synd/add'))
+      'empty' => t('No syndication items found.  <a href="@link">Add Syndicated Item</a>.', 
+        array('@link' => url('admin/config/content/hhs_digital_media_syndication/add'))
       )
     )
   );
@@ -41,11 +41,11 @@ function content_synd_admin_view() {
 }
 
 /**
-* Content synd Form, used for creating and editing content syndication items
+* Content synd Form, used for creating and editing hhs digital media syndication items
 *
-* @see content_synd_menu()
+* @see hhs_digital_media_syndication_menu()
 */
-function content_synd_form($form, &$form_state, stdClass $item = null) {
+function hhs_digital_media_syndication_form($form, &$form_state, stdClass $item = null) {
   $form['title'] = array(
     '#type' => 'textfield',
     '#title' => t('Title'),
@@ -192,33 +192,33 @@ function content_synd_form($form, &$form_state, stdClass $item = null) {
     );
   }
 
-  $path = drupal_get_path('module', 'content_synd');
+  $path = drupal_get_path('module', 'hhs_digital_media_syndication');
   $form['#attached']['css'] = array(
       $path . '/html/css/treestyle.css',
-      $path . '/html/css/content_synd.css',
+      $path . '/html/css/hhs_digital_media_syndication.css',
   );
   $form['#attached']['js'] = array(
       $path . '/html/js/jquery-1.9.1.js',
       //$path . '/html/js/jquery-1.9.1-noconflict.js', //Removed b/c noconflict added directly to jquery js file b/c drupal fwk adding other js files between jquery and noconflict file causing errors.
       $path . '/html/js/jstree.js',
       $path . '/html/js/jquery.maskedinput.js',
-      $path . '/html/js/content_synd.js',
+      $path . '/html/js/hhs_digital_media_syndication.js',
   );
 
   return $form;
 }
 
 /**
- * Content Synd Form validation handler
+ * HHS Digital Media Synd Form validation handler
  *
 */
-function content_synd_form_validate($form, &$form_state) {
+function hhs_digital_media_syndication_form_validate($form, &$form_state) {
 }
 
 /**
- * Content Synd Form submit handler
+ * HHS Digital Media Synd Form submit handler
  */
-function content_synd_form_submit($form, &$form_state) {
+function hhs_digital_media_syndication_form_submit($form, &$form_state) {
   $title = $form_state['values']['title'];
 
   //Unset title to trigger deletion on save
@@ -226,25 +226,25 @@ function content_synd_form_submit($form, &$form_state) {
     unset($form_state['values']['title']);
   }
 
-  content_synd_item_save($form_state['values']);
+  hhs_digital_media_syndication_item_save($form_state['values']);
 
   if (isset($form_state['values']['iid'])) {
     if (isset($form_state['values']['title'])) {
       drupal_set_message(t('The syndication item %title has been updated.', array('%title' => $title)));
       if (arg(0) == 'admin') {
-        $form_state['redirect'] = 'admin/config/content/content_synd';
+        $form_state['redirect'] = 'admin/config/content/hhs_digital_media_syndication';
       }
       else {
-        $form_state['redirect'] = 'content_synd/item/' . $form_state['values']['iid'];
+        $form_state['redirect'] = 'hhs_digital_media_syndication/item/' . $form_state['values']['iid'];
       }
     }
     else {
       drupal_set_message(t('The syndication item %title has been deleted.', array('%title' => $title)));
       if (arg(0) == 'admin') {
-        $form_state['redirect'] = 'admin/config/content/content_synd';
+        $form_state['redirect'] = 'admin/config/content/hhs_digital_media_syndication';
       }
       else {
-        $form_state['redirect'] = 'content_synd/item/' . $form_state['values']['iid'];
+        $form_state['redirect'] = 'hhs_digital_media_syndication/item/' . $form_state['values']['iid'];
       }
     }
   }

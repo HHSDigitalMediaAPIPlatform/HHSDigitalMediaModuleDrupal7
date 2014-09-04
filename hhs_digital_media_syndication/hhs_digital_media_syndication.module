@@ -15,12 +15,12 @@
 * @param arg
 *   Array that holds the current path as returned from arg() function
 */
-function content_synd_help($path, $arg) {
+function hhs_digital_media_syndication_help($path, $arg) {
   switch ($path) {
-    case "admin/help#content_synd":
+    case "admin/help#hhs_digital_media_syndication":
       return '<p>' . t("Displays HHS syndicated content") . '</p>';
       break;
-    case "admin/config/content/content_synd":
+    case "admin/config/content/hhs_digital_media_syndication":
       return '<p>' . t('HHS Digital Media syndicated content items you have created are listed below.  To create a new syndicated item click "Add Syndicated Item"') . '</p>';
       break;
   }
@@ -30,36 +30,36 @@ function content_synd_help($path, $arg) {
 /**
 * Implements hook_menu()
 */
-function content_synd_menu() {
+function hhs_digital_media_syndication_menu() {
   $items = array();
-  $items['admin/config/content/content_synd'] = array(
+  $items['admin/config/content/hhs_digital_media_syndication'] = array(
     'title' => 'HHS Digital Media Syndication',
     'description' => 'Configuration for HHS Digital Media Syndication module',
-    'page callback' => 'content_synd_admin_view',
+    'page callback' => 'hhs_digital_media_syndication_admin_view',
     'access arguments' => array('access administration pages'),
     'type' => MENU_NORMAL_ITEM,
-    'file' => 'content_synd.admin.inc',
+    'file' => 'hhs_digital_media_syndication.admin.inc',
   );
-  $items['admin/config/content/content_synd/add'] = array(
+  $items['admin/config/content/hhs_digital_media_syndication/add'] = array(
     'title' => 'Add Syndicated Item',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('content_synd_form'),
+    'page arguments' => array('hhs_digital_media_syndication_form'),
     'access arguments' => array('access administration pages'),
     'type' => MENU_LOCAL_ACTION,
-    'file' => 'content_synd.admin.inc',
+    'file' => 'hhs_digital_media_syndication.admin.inc',
   );
-  $items['admin/config/content/content_synd/edit/%content_synd_item'] = array(
+  $items['admin/config/content/hhs_digital_media_syndication/edit/%hhs_digital_media_syndication_item'] = array(
     'title' => 'Edit Syndicated Item',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('content_synd_form', 5),
+    'page arguments' => array('hhs_digital_media_syndication_form', 5),
     'access arguments' => array('access administration pages'),
-    'file' => 'content_synd.admin.inc',
+    'file' => 'hhs_digital_media_syndication.admin.inc',
   );
-  $items['content_synd/item/%content_synd_item'] = array(
-    'page callback' => 'content_synd_page_view',
+  $items['hhs_digital_media_syndication/item/%hhs_digital_media_syndication_item'] = array(
+    'page callback' => 'hhs_digital_media_syndication_page_view',
     'page arguments' => array(2),
     'access arguments' => array('access content'),
-    'file' => 'content_synd.pages.inc',
+    'file' => 'hhs_digital_media_syndication.pages.inc',
   );
   return $items;
 }
@@ -67,15 +67,15 @@ function content_synd_menu() {
 /**
  * Implements hook_theme()
  */
-function content_synd_theme() {
+function hhs_digital_media_syndication_theme() {
   return array(
-    'content_synd_jstree' => array(
+    'hhs_digital_media_syndication_jstree' => array(
       'render element' => 'element',
     ),
-    'content_synd_preview' => array(
+    'hhs_digital_media_syndication_preview' => array(
       'render element' => 'element',
     ),
-    'content_synd_item' => array(
+    'hhs_digital_media_syndication_item' => array(
       'variables' => array('item' => NULL,),
     ),
   );
@@ -84,11 +84,11 @@ function content_synd_theme() {
 /**
 * Implements hook_block_info()
 */
-function content_synd_block_info() {
+function hhs_digital_media_syndication_block_info() {
   $blocks = array();
-  $result = db_query('SELECT * from {content_synd_item} ORDER BY title');
+  $result = db_query('SELECT * from {hhs_digital_media_syndication_item} ORDER BY title');
   foreach($result as $item) {
-    $blocks['content_synd-' . $item->iid]['info'] = t('!title Syndicated Content', array('!title' => $item->title));
+    $blocks['hhs_digital_media_syndication-' . $item->iid]['info'] = t('!title Syndicated Content', array('!title' => $item->title));
   }
   return $blocks;
 }
@@ -98,14 +98,14 @@ function content_synd_block_info() {
  *
  * Generates blocks for each content syndication item
  */
-function content_synd_block_view($delta = '') {
+function hhs_digital_media_syndication_block_view($delta = '') {
   $block = array();
   list($type, $id) = explode('-', $delta);
   switch($type) {
-    case 'content_synd':
-      if ($item = db_query('SELECT * FROM {content_synd_item} WHERE iid = :iid', array(':iid' => $id))->fetchObject()) {
+    case 'hhs_digital_media_syndication':
+      if ($item = db_query('SELECT * FROM {hhs_digital_media_syndication_item} WHERE iid = :iid', array(':iid' => $id))->fetchObject()) {
         $block['subject'] = check_plain($item->title);
-        $block['content'] = theme('content_synd_item', array('item' => $item));
+        $block['content'] = theme('hhs_digital_media_syndication_item', array('item' => $item));
       } 
     break;
   }
@@ -115,7 +115,7 @@ function content_synd_block_view($delta = '') {
 /**
  * Returns HTML for content syndication embed item
  */
-function theme_content_synd_item($variables) {
+function theme_hhs_digital_media_syndication_item($variables) {
   $item = $variables['item']; 
   $id = $item->iid;
   $embed_code = '<script>'; 
@@ -148,58 +148,58 @@ function theme_content_synd_item($variables) {
 /**
  * Implements hook_element_info()
  */
-function content_synd_element_info() {
-  $types['content_synd_jstree'] = array(
+function hhs_digital_media_syndication_element_info() {
+  $types['hhs_digital_media_syndication_jstree'] = array(
     '#input' => true,
     //'#process' => array('content_synd_jstree_process'),
     //'#element_validate' => array('content_synd_jstree_validate'),
-    '#theme' => 'content_synd_jstree',
+    '#theme' => 'hhs_digital_media_syndication_jstree',
     '#theme_wrappers' => array('form_element'),
   );
-  $types['content_synd_preview'] = array(
+  $types['hhs_digital_media_syndication_preview'] = array(
     '#input' => true,
-    '#theme' => 'content_synd_preview',
+    '#theme' => 'hhs_digital_media_syndication_preview',
     '#theme_wrappers' => array('form_element'),
   );
   return $types;
 }
 
 /**
- * Theme function for content_synd_jstree form element
+ * Theme function for hhs_digital_media_syndication_jstree form element
  */
-function theme_content_synd_jstree($variables) {
+function theme_hhs_digital_media_syndication_jstree($variables) {
   $output = '<div id="' . $variables['element']['#name'] . '_control"></div>';
   $output .= '<input type="hidden" name="' . $variables['element']['#name'] . '" value="' . $variables['element']['#default_value'] . '"/>';
   return $output;
 }
 
 /**
- * Theme function for content_synd_preview form element
+ * Theme function for hhs_digital_media_syndication_preview form element
  */
-function theme_content_synd_preview($variables) {
+function theme_hhs_digital_media_syndication_preview($variables) {
   $output = '<div id="' . $variables['element']['#name'] .'_div"></div>';
   $output .= '<input type="hidden" name="' . $variables['element']['#name'] . '" value="' . $variables['element']['#default_value'] . '"/>';
   return $output;
 }
 
 /**
-* Auto loader for content synd item edit menu
+* Auto loader for hhs digital media syndication item edit menu
 */
-function content_synd_item_load($iid) {
-  $content_synd_items = &drupal_static(__FUNCTION__);
-  if (!isset($content_synd_items[$iid])) {
-    $content_synd_items[$iid] = db_query('SELECT * FROM {content_synd_item} where iid = :iid', 
+function hhs_digital_media_syndication_item_load($iid) {
+  $hhs_digital_media_syndication_items = &drupal_static(__FUNCTION__);
+  if (!isset($hhs_digital_media_syndication_items[$iid])) {
+    $hhs_digital_media_syndication_items[$iid] = db_query('SELECT * FROM {hhs_digital_media_syndication_item} where iid = :iid', 
       array(':iid' => $iid))->fetchObject();
   }
-  return $content_synd_items[$iid];
+  return $hhs_digital_media_syndication_items[$iid];
 }
 
 /**
-* Save content synd item
+* Save hhs digital media syndication item
 */
-function content_synd_item_save($item) {
+function hhs_digital_media_syndication_item_save($item) {
   if (!empty($item['iid']) && !empty($item['title'])) {
-    db_update('content_synd_item')
+    db_update('hhs_digital_media_syndication_item')
       ->condition('iid', $item['iid'])
       ->fields(array(
         'title' => $item['title'],
@@ -221,12 +221,12 @@ function content_synd_item_save($item) {
       ->execute();
   }
   elseif (!empty($item['iid'])) {
-    db_delete('content_synd_item')
+    db_delete('hhs_digital_media_syndication_item')
       ->condition('iid', $item['iid'])
       ->execute();
   }
   elseif (!empty($item['title'])) {
-    $item['iid'] = db_insert('content_synd_item')
+    $item['iid'] = db_insert('hhs_digital_media_syndication_item')
       ->fields(array(
         'title' => $item['title'],
         'source' => $item['cdccs_sourceval'],
