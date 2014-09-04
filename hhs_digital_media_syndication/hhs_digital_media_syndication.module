@@ -151,8 +151,8 @@ function theme_hhs_digital_media_syndication_item($variables) {
 function hhs_digital_media_syndication_element_info() {
   $types['hhs_digital_media_syndication_jstree'] = array(
     '#input' => true,
-    //'#process' => array('content_synd_jstree_process'),
-    //'#element_validate' => array('content_synd_jstree_validate'),
+    //'#process' => array('hhs_digital_media_syndication_jstree_process'),
+    //'#element_validate' => array('hhs_digital_media_syndication_jstree_validate'),
     '#theme' => 'hhs_digital_media_syndication_jstree',
     '#theme_wrappers' => array('form_element'),
   );

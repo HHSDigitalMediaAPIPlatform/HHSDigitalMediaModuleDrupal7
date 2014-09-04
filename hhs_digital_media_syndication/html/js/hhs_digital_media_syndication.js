@@ -27,8 +27,8 @@ var CDCContentSynd = function() {
   var scriptPath = '';
   $csjq('script').each(function() {
     var src = $csjq(this).attr('src');
-    if (src.indexOf('content_synd.js') >= 0) {
-      scriptPath = src.replace(/content_synd\.js.*?$/, ''); 
+    if (src.indexOf('hhs_digital_media_syndication.js') >= 0) {
+      scriptPath = src.replace(/hhs_digital_media_syndication\.js.*?$/, ''); 
       return false;
     }
   });

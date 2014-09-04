@@ -93,7 +93,7 @@ function hhs_digital_media_syndication_form($form, &$form_state, stdClass $item 
     '#default_value' => isset($item->media_types) ? $item->media_types : '',
   );
   $form['content']['cdccs_topictree'] = array(
-    '#type' => 'content_synd_jstree',
+    '#type' => 'hhs_digital_media_syndication_jstree',
     '#title' => t('Topics'),
     '#default_value' => isset($item->topics) ? $item->topics : '',
     '#description' => t('Select one or more topics to filter the list of titles'),
@@ -170,7 +170,7 @@ function hhs_digital_media_syndication_form($form, &$form_state, stdClass $item 
     ),
   );
   $form['cdccs_preview'] = array(
-    '#type' => 'content_synd_preview',
+    '#type' => 'hhs_digital_media_syndication_preview',
     '#title' => t('Preview'),
     '#default_value' => isset($item->syndication_url) ? $item->syndication_url : '',
     '#description' => t('Preview of syndicated content'),
