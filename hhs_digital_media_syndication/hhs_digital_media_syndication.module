@@ -36,7 +36,7 @@ function hhs_digital_media_syndication_menu() {
     'title' => 'HHS Digital Media Syndication',
     'description' => 'Configuration for HHS Digital Media Syndication module',
     'page callback' => 'hhs_digital_media_syndication_admin_view',
-    'access arguments' => array('access administration pages'),
+    'access arguments' => array('administer site configuration'),
     'type' => MENU_NORMAL_ITEM,
     'file' => 'hhs_digital_media_syndication.admin.inc',
   );
@@ -44,7 +44,7 @@ function hhs_digital_media_syndication_menu() {
     'title' => 'Add Syndicated Item',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('hhs_digital_media_syndication_form'),
-    'access arguments' => array('access administration pages'),
+    'access arguments' => array('administer site configuration'),
     'type' => MENU_LOCAL_ACTION,
     'file' => 'hhs_digital_media_syndication.admin.inc',
   );
@@ -52,7 +52,7 @@ function hhs_digital_media_syndication_menu() {
     'title' => 'Edit Syndicated Item',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('hhs_digital_media_syndication_form', 5),
-    'access arguments' => array('access administration pages'),
+    'access arguments' => array('administer site configuration'),
     'file' => 'hhs_digital_media_syndication.admin.inc',
   );
   $items['hhs_digital_media_syndication/item/%hhs_digital_media_syndication_item'] = array(
