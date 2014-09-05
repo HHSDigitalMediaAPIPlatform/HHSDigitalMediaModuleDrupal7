@@ -426,7 +426,7 @@ var CDCContentSynd = function() {
 
   var parseFromDate = function (fromDate) {
     var parts = fromDate.match(/(\d+)-(\d+)-(\d+) (\d+):(\d+):(\d+)/);
-    return new Date(+ parts[1], parts[2] - 1, + parts[3], + parts[4], + parts[5], + parts[6]);
+    return new Date('' + parts[1], parts[2] - 1, + parts[3], + parts[4], + parts[5], + parts[6]);
   };
 
   var htmlDecode = function (value) {
