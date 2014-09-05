@@ -32,7 +32,7 @@ var CDCContentSynd = function() {
   var scriptPath = '';
   jQuery('script').each(function() {
     var src = jQuery(this).attr('src');
-    if (src.indexOf('hhs_digital_media_syndication.js') >= 0) {
+    if (src && src.indexOf('hhs_digital_media_syndication.js') >= 0) {
       scriptPath = src.replace(/hhs_digital_media_syndication\.js.*?$/, '');
       return false;
     }
