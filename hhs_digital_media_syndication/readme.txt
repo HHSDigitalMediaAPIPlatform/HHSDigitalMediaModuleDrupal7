@@ -12,16 +12,19 @@ pure HTML & Javascript module found
 [Here](https://github.com/HHSDigitalMediaAPIPlatform/HHSDigitalMediaModuleHTML).
 
 ## Installation & Setup
-Install the module found at /install/hhs_digital_media_syndication.zip like 
-you would install any other Drupal module.
-This module depends on jquery_update module to be installed and enabled first.
+Install the module like you would install any other Drupal module.
+The following additional steps are required:
+1. This module depends on jquery_update module to be installed and enabled first.
 https://www.drupal.org/project/jquery_update is the project page.
-You also need to download the following 3rd party javascript libraries
+2. You also need to download the following 3rd party javascript libraries
 and put them in the <module_location>/html/js directory.
-* jstree.js (v 3.0.0) : 
-  * http://www.jstree.com/
-* jquery.maskedinput.js (v 1.3.1) : 
-  * http://digitalbush.com/projects/masked-input-plugin/
+  * jstree.js (v 3.0.0) : 
+    * http://www.jstree.com/
+  * jquery.maskedinput.js (v 1.3.1) : 
+    * http://digitalbush.com/projects/masked-input-plugin/
+3. As part of the jstree library please add the jstree style.css file
+to <module_location>/html/css and rename the file treestyle.css if
+it is not already named treestyle.css.
 
 Once installed you should find a new module type called 
 *HHS Digital Media Syndication*, enable the module 

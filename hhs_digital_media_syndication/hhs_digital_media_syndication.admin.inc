@@ -6,8 +6,9 @@
  */
 
 /**
- * Page callback: Displays the hhs digital media syndication 
- * module administration page.
+ * Page callback.
+ *
+ * Displays the hhs digital media syndication module administration page.
  *
  * @return string
  *   A HTML-formatted string with administration page content.
@@ -42,8 +43,9 @@ function hhs_digital_media_syndication_admin_view() {
 }
 
 /**
- * Content synd Form, used for creating and editing hhs digital media 
- * syndication items.
+ * HHS Digital Media Syndication Form.
+ *
+ * Used for creating and editing hhs digital media syndication items.
  *
  * @see hhs_digital_media_syndication_menu()
  */
@@ -200,10 +202,6 @@ function hhs_digital_media_syndication_form($form, &$form_state, stdClass $item 
     $path . '/html/css/hhs_digital_media_syndication.css',
   );
   $form['#attached']['js'] = array(
-    // $path . '/html/js/jquery-1.9.1.js',
-    // $path . '/html/js/jquery-1.9.1-noconflict.js',
-    // Removed b/c noconflict added directly to jquery js file b/c drupal.
-    // Adding other js files between jquery and noconflict file causing errors.
     $path . '/html/js/jstree.js',
     $path . '/html/js/jquery.maskedinput.js',
     $path . '/html/js/hhs_digital_media_syndication.js',
