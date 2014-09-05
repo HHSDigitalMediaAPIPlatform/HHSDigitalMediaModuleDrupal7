@@ -1,23 +1,27 @@
+/**
+ * @file
+ * Javascript used by HHS Digital Media Syndication Module.
+ */
 var CDCContentSynd = function() {
   "use strict";
 
   var sourceData = [
   {
-    "label" : "Please Select Source", 
-      "value" : "", 
-      "topicsUrl" : "", 
-      "mediaTypesUrl" : "", 
-      "mediaByTopicsUrl" : "", 
-      "mediaByTopicsUrlTopicsDelim" : "", 
+    "label" : "Please Select Source",
+      "value" : "",
+      "topicsUrl" : "",
+      "mediaTypesUrl" : "",
+      "mediaByTopicsUrl" : "",
+      "mediaByTopicsUrlTopicsDelim" : "",
       "mediaUrl" : ""
   },
   {
-    "label" : "CDC", 
-    "value" : "CDC", 
-    "topicsUrl" : "https://tools.cdc.gov/api/v1/resources/topics.jsonp?showchild=true&max=0", 
-    "mediaTypesUrl" : "https://tools.cdc.gov/api/v1/resources/mediatypes?max=0", 
-    "mediaByTopicsUrl" : "https://tools.cdc.gov/api/v1/resources/media?topicid={topicids}&mediatype={mediatype}&sort=-dateModified&max=0", 
-    "mediaByTopicsUrlAllTypes" : "https://tools.cdc.gov/api/v1/resources/media?topicid={topicids}&&sort=-dateModified&max=0", 
+    "label" : "CDC",
+    "value" : "CDC",
+    "topicsUrl" : "https://tools.cdc.gov/api/v1/resources/topics.jsonp?showchild=true&max=0",
+    "mediaTypesUrl" : "https://tools.cdc.gov/api/v1/resources/mediatypes?max=0",
+    "mediaByTopicsUrl" : "https://tools.cdc.gov/api/v1/resources/media?topicid={topicids}&mediatype={mediatype}&sort=-dateModified&max=0",
+    "mediaByTopicsUrlAllTypes" : "https://tools.cdc.gov/api/v1/resources/media?topicid={topicids}&&sort=-dateModified&max=0",
     "mediaUrl" : "https://tools.cdc.gov/api/v1/resources/media/{mediaid}/syndicate"
   }
   ];
@@ -34,7 +38,7 @@ var CDCContentSynd = function() {
   });
 
   var init = function() {
-    //Set source data here.
+    // Set source data here.
     var selectedSource = $csjq('input[name="cdccs_sourceval"]').val();
     for (var i = 0; i < sourceData.length; i++) {
       if (sourceData[i].value === selectedSource) {
@@ -66,7 +70,7 @@ var CDCContentSynd = function() {
     $csjq('input[name="cdccs_hidedescription"]').change(showHideContentTitleDesc);
     $csjq('select[name="cdccs_encoding"]').change(handleTitleChange);
 
-    handleSourceChange(); //To kick off loading of all fields based on previous saved settings
+    handleSourceChange(); // To kick off loading of all fields based on previous saved settings.
   };
 
   var topicsCallback = function (response) {
@@ -86,7 +90,7 @@ var CDCContentSynd = function() {
             "data" : jstreeData
           },
       "checkbox" : {
-        "three_state" : false 
+        "three_state" : false
       },
       "plugins" : ["checkbox"]
         });
@@ -106,7 +110,7 @@ var CDCContentSynd = function() {
       mediaTypeSelect.val("");
       return;
     }
-    //Set selected media types
+    // Set selected media types.
     var selectedMediaTypes = $csjq('input[name="cdccs_mediatypesval"]').val().split(",");
 
     for (var i = 0; i < response.results.length; i++) {
@@ -122,19 +126,19 @@ var CDCContentSynd = function() {
             .text(response.results[i].name));
       }
     }
-  }; 
+  };
 
   var mediaTitleCallback = function (response) {
     $csjq('select[name="cdccs_title"]').prop('disabled', false);
     if (!response || !response.results) {
       return;
-    } 
+    }
     var titleSelect = $csjq('select[name="cdccs_title"]');
     var titleHiddenField = $csjq('input[name="cdccs_titleval"]');
 
     titleSelect.find('option').remove();
 
-    //Since CDC API doesn't (yet) support filtering by date, sort by date and then only show items with mod date >= from date
+    // Since CDC API doesn't (yet) support filtering by date, sort by date and then only show items with mod date >= from date.
     if (selectedSourceData.value === 'CDC') {
       var fromDate = new Date($csjq('input[name="cdccs_fromdate"]').val());
     }
@@ -158,7 +162,7 @@ var CDCContentSynd = function() {
             .attr("value", response.results[i].mediaId)
             .text(response.results[i].title)
             .attr('selected', true));
-        foundSelectedTitle = true; 
+        foundSelectedTitle = true;
       }
       else {
         titleSelect.append($csjq("<option></option>")
@@ -169,7 +173,7 @@ var CDCContentSynd = function() {
     }
 
     if (foundSelectedTitle) {
-      handleTitleChange(); 
+      handleTitleChange();
     }
     else {
       titleHiddenField.val("");
@@ -221,7 +225,7 @@ var CDCContentSynd = function() {
       error: function(xhr, ajaxOptions, thrownError) {
         $csjq('div[id="cdccs_topictree_control"]').html("<p>There was a problem loading topics, please refresh and try again</p>");
       }
-    });    
+    });
 
     $csjq.ajax({
       url: mediaTypesUrl,
@@ -230,7 +234,7 @@ var CDCContentSynd = function() {
       error: function(xhr, ajaxOptions, thrownError) {
         $csjq('select[name="cdccs_mediatypes[]"]').prop('disabled', false);
       }
-    });    
+    });
   };
 
   var handleFromDateChange = function () {
@@ -272,7 +276,7 @@ var CDCContentSynd = function() {
     loadingPreview(true);
     var mediaUrl = selectedSourceData.mediaUrl;
     mediaUrl = mediaUrl.replace("{mediaid}", selectedTitle);
-    var configParams = getConfigureParamsAsQueryString(); 
+    var configParams = getConfigureParamsAsQueryString();
     if (configParams) {
       if (mediaUrl.indexOf("?") > 0) {
         mediaUrl = mediaUrl + "&" + configParams;
@@ -281,7 +285,7 @@ var CDCContentSynd = function() {
         mediaUrl = mediaUrl + "?" + configParams;
       }
     }
-    $csjq('input[name="cdccs_preview"]').val(mediaUrl); 
+    $csjq('input[name="cdccs_preview"]').val(mediaUrl);
     $csjq.ajaxSetup({cache:false});
     $csjq.ajax({
       url: mediaUrl,
@@ -290,7 +294,7 @@ var CDCContentSynd = function() {
       error: function(xhr, ajaxOptions, thrownError) {
         previewError();
       }
-    }); 
+    });
   };
 
   var getConfigureParamsAsQueryString = function () {
@@ -301,7 +305,7 @@ var CDCContentSynd = function() {
       delim = "&";
     }
     if ($csjq('input[name="cdccs_stripscripts"]').prop('checked')) {
-      queryString += delim + "stripScript=true"; 
+      queryString += delim + "stripScript=true";
       delim = "&";
     }
     if ($csjq('input[name="cdccs_stripanchors"]').prop('checked')) {
@@ -309,7 +313,7 @@ var CDCContentSynd = function() {
       delim = "&";
     }
     if ($csjq('input[name="cdccs_stripcomments"]').prop('checked')) {
-      queryString += delim + "stripComment=true"; 
+      queryString += delim + "stripComment=true";
       delim = "&";
     }
     if ($csjq('input[name="cdccs_stripinlinestyles"]').prop('checked')) {
@@ -366,17 +370,18 @@ var CDCContentSynd = function() {
       delim = selectedSourceData.mediaByTopicsUrlTopicsDelim;
     }
 
-    //TODO: Replace {fromdate} in url with the selected from date.  Need API that supports this first (CDC does not yet).
+    // TODO: Replace {fromdate} in url with the selected from date.  
+    // Need API that supports this first (CDC does not yet).
     var fromDate = $csjq('input[name="cdccs_fromdate"]').val();
 
     var mediaTypes = "";
-    var selectedMediaTypes = $csjq('select[name="cdccs_mediatypes[]"]').val(); //Array of media type names selected
+    var selectedMediaTypes = $csjq('select[name="cdccs_mediatypes[]"]').val();
     if (selectedMediaTypes) {
       mediaTypes = selectedMediaTypes.join();
     }
     if (mediaTypes === '') {
       mediaUrl = selectedSourceData.mediaByTopicsUrlAllTypes;
-    } 
+    }
     else {
       mediaUrl = mediaUrl.replace("{mediatype}", mediaTypes);
     }
@@ -384,7 +389,7 @@ var CDCContentSynd = function() {
     mediaUrl = mediaUrl.replace("{topicids}", selectedTopicIds.join(delim));
     if (mediaUrl.indexOf("?") > 0) {
       mediaUrl = mediaUrl + "&";
-    } 
+    }
     else {
       mediaUrl = mediaUrl + "?";
     }
@@ -397,7 +402,7 @@ var CDCContentSynd = function() {
       error: function(xhr, ajaxOptions, thrownError) {
         $csjq('select[name="cdccs_title"]').prop('disabled', false);
       }
-    });    
+    });
   };
 
   var resetForm = function () {
@@ -420,7 +425,7 @@ var CDCContentSynd = function() {
 
   var parseFromDate = function (fromDate) {
     var parts = fromDate.match(/(\d+)-(\d+)-(\d+) (\d+):(\d+):(\d+)/);
-    return new Date(+parts[1], parts[2]-1, +parts[3], +parts[4], +parts[5], +parts[6]);
+    return new Date( + parts[1], parts[2] - 1, + parts[3], + parts[4], + parts[5], + parts[6]);
   };
 
   var htmlDecode = function (value) {
@@ -436,7 +441,7 @@ var CDCContentSynd = function() {
     for(var i = 0; i < selectedNodes.length; i++) {
       var nodeIdElements = selectedNodes[i].split("_");
       selectedTopicIds.push(nodeIdElements.pop());
-    } 
+    }
     return selectedTopicIds;
   };
 
@@ -451,7 +456,7 @@ var CDCContentSynd = function() {
       nodeIdHierarchy.push(item.id);
       treeNode.id = nodeIdHierarchy.join("_");
       treeNode.text = item.name;
-      if ($csjq.inArray(''+treeNode.id, selectedItems) > -1) {
+      if ($csjq.inArray('' + treeNode.id, selectedItems) > -1) {
         treeNode.state = {"opened" : true, "selected" : true};
       }
       if (item.items && item.items.length && item.items.length > 0) {
@@ -468,7 +473,7 @@ var CDCContentSynd = function() {
   };
 
   var previewError = function () {
-    $csjq('input[name="cdccs_preview"]').val(""); 
+    $csjq('input[name="cdccs_preview"]').val("");
     $csjq('div[id="cdccs_preview_div"]')
       .html("<p>There was a problem loading the content for preview, please refresh and try again</p>");
   };
@@ -476,7 +481,7 @@ var CDCContentSynd = function() {
   var loadingTopics = function (showIcon) {
     if (showIcon) {
       $csjq('div[id="cdccs_topictree_control"]').html('<img src="' + scriptPath + '../css/throbber.gif"/>');
-    } 
+    }
     else {
       $csjq('div[id="cdccs_topictree_control"]').html('');
     }
@@ -485,13 +490,12 @@ var CDCContentSynd = function() {
   var loadingPreview = function (showIcon) {
     if (showIcon) {
       $csjq('div[id="cdccs_preview_div"]').html('<img src="' + scriptPath + '../css/throbber.gif"/>');
-    } 
+    }
     else {
       $csjq('div[id="cdccs_preview_div"]').html('');
     }
   };
 
-  //Initialize
   init();
 };
 
