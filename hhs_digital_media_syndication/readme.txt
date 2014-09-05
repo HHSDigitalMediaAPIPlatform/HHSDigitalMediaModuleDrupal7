@@ -14,7 +14,8 @@ pure HTML & Javascript module found
 ## Installation & Setup
 Install the module like you would install any other Drupal module.
 The following additional steps are required:
-1. This module depends on jquery_update module to be installed and enabled first.
+1. This module depends on jquery_update module to be installed 
+and enabled first.
 https://www.drupal.org/project/jquery_update is the project page.
 2. You also need to download the following 3rd party javascript libraries
 and put them in the <module_location>/html/js directory.
