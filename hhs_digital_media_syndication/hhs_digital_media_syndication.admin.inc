@@ -8,14 +8,14 @@
 /**
  * Page callback: Displays the hhs digital media syndication module administration page.
  *
- * @return
+ * @return string
  *   A HTML-formatted string with administration page content.
  */
 function hhs_digital_media_syndication_admin_view() {
   $page = '<h3>' . t('HHS Digital Media Syndication Items') . '</h3>';
 
   $result = db_query('SELECT * from {hhs_digital_media_syndication_item} order by title');
-  
+
   $header = array(t('Title'), t('Operations'));
 
   $rows = array();
@@ -32,19 +32,19 @@ function hhs_digital_media_syndication_admin_view() {
       'header' => $header,
       'rows' => $rows, 
       'empty' => t('No syndication items found.  <a href="@link">Add Syndicated Item</a>.', 
-        array('@link' => url('admin/config/content/hhs_digital_media_syndication/add'))
-      )
+      array('@link' => url('admin/config/content/hhs_digital_media_syndication/add'))
     )
-  );
+  )
+);
 
   return $page;
 }
 
 /**
-* Content synd Form, used for creating and editing hhs digital media syndication items
-*
-* @see hhs_digital_media_syndication_menu()
-*/
+ * Content synd Form, used for creating and editing hhs digital media syndication items
+ *
+ * @see hhs_digital_media_syndication_menu()
+ */
 function hhs_digital_media_syndication_form($form, &$form_state, stdClass $item = null) {
   $form['title'] = array(
     '#type' => 'textfield',
@@ -54,7 +54,7 @@ function hhs_digital_media_syndication_form($form, &$form_state, stdClass $item 
     '#maxlength' => 255,
     '#description' => t('The title of the syndicated item.'),
     '#required' => TRUE,
-    );
+  );
   $form['content'] = array(
     '#type' => 'fieldset',
     '#title' => t('Select Content'),
@@ -194,15 +194,15 @@ function hhs_digital_media_syndication_form($form, &$form_state, stdClass $item 
 
   $path = drupal_get_path('module', 'hhs_digital_media_syndication');
   $form['#attached']['css'] = array(
-      $path . '/html/css/treestyle.css',
-      $path . '/html/css/hhs_digital_media_syndication.css',
+    $path . '/html/css/treestyle.css',
+    $path . '/html/css/hhs_digital_media_syndication.css',
   );
   $form['#attached']['js'] = array(
-      $path . '/html/js/jquery-1.9.1.js',
-      //$path . '/html/js/jquery-1.9.1-noconflict.js', //Removed b/c noconflict added directly to jquery js file b/c drupal fwk adding other js files between jquery and noconflict file causing errors.
-      $path . '/html/js/jstree.js',
-      $path . '/html/js/jquery.maskedinput.js',
-      $path . '/html/js/hhs_digital_media_syndication.js',
+    $path . '/html/js/jquery-1.9.1.js',
+    //$path . '/html/js/jquery-1.9.1-noconflict.js', //Removed b/c noconflict added directly to jquery js file b/c drupal fwk adding other js files between jquery and noconflict file causing errors.
+    $path . '/html/js/jstree.js',
+    $path . '/html/js/jquery.maskedinput.js',
+    $path . '/html/js/hhs_digital_media_syndication.js',
   );
 
   return $form;
@@ -211,7 +211,7 @@ function hhs_digital_media_syndication_form($form, &$form_state, stdClass $item 
 /**
  * HHS Digital Media Synd Form validation handler
  *
-*/
+ */
 function hhs_digital_media_syndication_form_validate($form, &$form_state) {
 }
 

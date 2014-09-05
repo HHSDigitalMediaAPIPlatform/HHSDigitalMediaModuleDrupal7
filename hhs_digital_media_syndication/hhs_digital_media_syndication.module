@@ -1,35 +1,33 @@
 <?php
 /**
-*
-* @file
-* A block module for displaying HHS content
-*/
+ *
+ * @file
+ * A block module for displaying HHS content.
+ */
 
 /**
-* Implements hook_help()
-*
-* Displays help and module information
-*
-* @param path
-*   Which path of the site we're using to display help
-* @param arg
-*   Array that holds the current path as returned from arg() function
-*/
+ * Implements hook_help().
+ *
+ * Displays help and module information.
+ *
+ * @param string $path
+ *   Which path of the site we're using to display help
+ * @param array $arg
+ *   Array that holds the current path as returned from arg() function
+ */
 function hhs_digital_media_syndication_help($path, $arg) {
   switch ($path) {
-    case "admin/help#hhs_digital_media_syndication":
-      return '<p>' . t("Displays HHS syndicated content") . '</p>';
-      break;
-    case "admin/config/content/hhs_digital_media_syndication":
-      return '<p>' . t('HHS Digital Media syndicated content items you have created are listed below.  To create a new syndicated item click "Add Syndicated Item"') . '</p>';
-      break;
+  case "admin/help#hhs_digital_media_syndication":
+    return '<p>' . t("Displays HHS syndicated content") . '</p>';
+  case "admin/config/content/hhs_digital_media_syndication":
+    return '<p>' . t('HHS Digital Media syndicated content items you have created are listed below.  To create a new syndicated item click "Add Syndicated Item"') . '</p>';
   }
 }
 
 
 /**
-* Implements hook_menu()
-*/
+ * Implements hook_menu().
+ */
 function hhs_digital_media_syndication_menu() {
   $items = array();
   $items['admin/config/content/hhs_digital_media_syndication'] = array(
@@ -65,7 +63,7 @@ function hhs_digital_media_syndication_menu() {
 }
 
 /**
- * Implements hook_theme()
+ * Implements hook_theme().
  */
 function hhs_digital_media_syndication_theme() {
   return array(
@@ -82,8 +80,8 @@ function hhs_digital_media_syndication_theme() {
 }
 
 /**
-* Implements hook_block_info()
-*/
+ * Implements hook_block_info().
+ */
 function hhs_digital_media_syndication_block_info() {
   $blocks = array();
   $result = db_query('SELECT * from {hhs_digital_media_syndication_item} ORDER BY title');
@@ -102,11 +100,11 @@ function hhs_digital_media_syndication_block_view($delta = '') {
   $block = array();
   list($type, $id) = explode('-', $delta);
   switch($type) {
-    case 'hhs_digital_media_syndication':
-      if ($item = db_query('SELECT * FROM {hhs_digital_media_syndication_item} WHERE iid = :iid', array(':iid' => $id))->fetchObject()) {
-        $block['subject'] = check_plain($item->title);
-        $block['content'] = theme('hhs_digital_media_syndication_item', array('item' => $item));
-      } 
+  case 'hhs_digital_media_syndication':
+    if ($item = db_query('SELECT * FROM {hhs_digital_media_syndication_item} WHERE iid = :iid', array(':iid' => $id))->fetchObject()) {
+      $block['subject'] = check_plain($item->title);
+      $block['content'] = theme('hhs_digital_media_syndication_item', array('item' => $item));
+    } 
     break;
   }
   return $block;
@@ -146,7 +144,7 @@ function theme_hhs_digital_media_syndication_item($variables) {
 
 
 /**
- * Implements hook_element_info()
+ * Implements hook_element_info().
  */
 function hhs_digital_media_syndication_element_info() {
   $types['hhs_digital_media_syndication_jstree'] = array(
@@ -183,8 +181,8 @@ function theme_hhs_digital_media_syndication_preview($variables) {
 }
 
 /**
-* Auto loader for hhs digital media syndication item edit menu
-*/
+ * Auto loader for hhs digital media syndication item edit menu
+ */
 function hhs_digital_media_syndication_item_load($iid) {
   $hhs_digital_media_syndication_items = &drupal_static(__FUNCTION__);
   if (!isset($hhs_digital_media_syndication_items[$iid])) {
@@ -195,8 +193,8 @@ function hhs_digital_media_syndication_item_load($iid) {
 }
 
 /**
-* Save hhs digital media syndication item
-*/
+ * Save hhs digital media syndication item
+ */
 function hhs_digital_media_syndication_item_save($item) {
   if (!empty($item['iid']) && !empty($item['title'])) {
     db_update('hhs_digital_media_syndication_item')

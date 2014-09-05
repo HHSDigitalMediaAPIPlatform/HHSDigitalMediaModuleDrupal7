@@ -10,108 +10,108 @@
  */
 function hhs_digital_media_syndication_schema() {
   $schema['hhs_digital_media_syndication_item'] = array(
-    'description' => 'Stores HHS Digital Media Syndication Items.',
-    'fields' => array(
-      'iid'  => array(
-        'type' => 'serial',
-        'not null' => TRUE,
-        'description' => 'Primary Key: Unique ID.',
-      ),
-      'title' => array(
-        'type' => 'varchar',
-        'length' => 255,
-        'not null' => TRUE,
-        'default' => '',
-        'description' => 'Title of the syndication item.',
-      ),
-      'source' => array(
-        'type' => 'varchar',
-        'length' => 255,
-        'not null' => FALSE,
-        'default' => '',
-        'description' => 'Source of syndicated content',
-      ),
-      'from_date' => array(
-        'type' => 'int',
-        'not null' => FALSE,
-        'description' => 'Last modified date to search for content starting from.',
-      ),
-      'media_types' => array(
-        'type' => 'varchar',
-        'length' => 255,
-        'not null' => FALSE,
-        'default' => '',
-        'description' => 'Comma separated list of media types',
-      ),
-      'topics' => array(
-        'type' => 'varchar',
-        'length' => 255,
-        'not null' => FALSE,
-        'default' => '',
-        'description' => 'Comma separated list of topic unique ids',
-      ),
-      'media_id' => array(
-        'type' => 'varchar',
-        'length' => 255,
-        'not null' => FALSE,
-        'default' => '',
-        'description' => 'Selected media unique identifier for syndication',
-      ),
-      'syndication_url' => array(
-        'type' => 'varchar',
-        'length' => 1024,
-        'not null' => FALSE,
-        'default' => '',
-        'description' => 'Url from which to fetch syndicated content',
-      ),
-      'strip_images' => array(
-        'type' => 'int',
-        'not null' => FALSE,
-        'description' => 'boolean option to strip images from returned content',
-      ),
-      'strip_scripts' => array(
-        'type' => 'int',
-        'not null' => FALSE,
-        'description' => 'boolean option to strip scripts from returned content',
-      ),
-      'strip_anchors' => array(
-        'type' => 'int',
-        'not null' => FALSE,
-        'description' => 'boolean option to strip anchors from returned content',
-      ),
-      'strip_comments' => array(
-        'type' => 'int',
-        'not null' => FALSE,
-        'description' => 'boolean option to strip comments from returned content',
-      ),
-      'strip_inline_styles' => array(
-        'type' => 'int',
-        'not null' => FALSE,
-        'description' => 'boolean option to strip inline styles from returned content',
-      ),
-      'encoding' => array(
-        'type' => 'varchar',
-        'length' => 128,
-        'not null' => FALSE,
-        'default' => '',
-        'description' => 'Character encoding',
-      ),
-      'hide_title' => array(
-        'type' => 'int',
-        'not null' => FALSE,
-        'description' => 'boolean option to hide title if returned in syndicated markup',
-      ),
-      'hide_description' => array(
-        'type' => 'int',
-        'not null' => FALSE,
-        'description' => 'boolean option to hide description if returned in syndicated markup',
-      ),
-    ),
-    'primary key' => array('iid'),
-    'unique keys' => array(
-      'title' => array('title'),
-    ),
-  );
+      'description' => 'Stores HHS Digital Media Syndication Items.',
+      'fields' => array(
+        'iid'  => array(
+          'type' => 'serial',
+          'not null' => TRUE,
+          'description' => 'Primary Key: Unique ID.',
+          ),
+        'title' => array(
+          'type' => 'varchar',
+          'length' => 255,
+          'not null' => TRUE,
+          'default' => '',
+          'description' => 'Title of the syndication item.',
+          ),
+        'source' => array(
+          'type' => 'varchar',
+          'length' => 255,
+          'not null' => FALSE,
+          'default' => '',
+          'description' => 'Source of syndicated content',
+          ),
+        'from_date' => array(
+          'type' => 'int',
+          'not null' => FALSE,
+          'description' => 'Last modified date to search for content starting from.',
+          ),
+        'media_types' => array(
+            'type' => 'varchar',
+            'length' => 255,
+            'not null' => FALSE,
+            'default' => '',
+            'description' => 'Comma separated list of media types',
+            ),
+        'topics' => array(
+            'type' => 'varchar',
+            'length' => 255,
+            'not null' => FALSE,
+            'default' => '',
+            'description' => 'Comma separated list of topic unique ids',
+            ),
+        'media_id' => array(
+            'type' => 'varchar',
+            'length' => 255,
+            'not null' => FALSE,
+            'default' => '',
+            'description' => 'Selected media unique identifier for syndication',
+            ),
+        'syndication_url' => array(
+            'type' => 'varchar',
+            'length' => 1024,
+            'not null' => FALSE,
+            'default' => '',
+            'description' => 'Url from which to fetch syndicated content',
+            ),
+        'strip_images' => array(
+            'type' => 'int',
+            'not null' => FALSE,
+            'description' => 'boolean option to strip images from returned content',
+            ),
+        'strip_scripts' => array(
+            'type' => 'int',
+            'not null' => FALSE,
+            'description' => 'boolean option to strip scripts from returned content',
+            ),
+        'strip_anchors' => array(
+            'type' => 'int',
+            'not null' => FALSE,
+            'description' => 'boolean option to strip anchors from returned content',
+            ),
+        'strip_comments' => array(
+            'type' => 'int',
+            'not null' => FALSE,
+            'description' => 'boolean option to strip comments from returned content',
+            ),
+        'strip_inline_styles' => array(
+            'type' => 'int',
+            'not null' => FALSE,
+            'description' => 'boolean option to strip inline styles from returned content',
+            ),
+        'encoding' => array(
+            'type' => 'varchar',
+            'length' => 128,
+            'not null' => FALSE,
+            'default' => '',
+            'description' => 'Character encoding',
+            ),
+        'hide_title' => array(
+            'type' => 'int',
+            'not null' => FALSE,
+            'description' => 'boolean option to hide title if returned in syndicated markup',
+            ),
+        'hide_description' => array(
+            'type' => 'int',
+            'not null' => FALSE,
+            'description' => 'boolean option to hide description if returned in syndicated markup',
+            ),
+        ),
+        'primary key' => array('iid'),
+        'unique keys' => array(
+            'title' => array('title'),
+            ),
+        );
 
   return $schema;
 }
