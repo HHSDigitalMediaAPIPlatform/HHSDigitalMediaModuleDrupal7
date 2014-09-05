@@ -12,7 +12,7 @@
 	}
 }(function (jQuery, undefined) {
 	"use strict";
-  jQuery = $csjq;
+  //jQuery = $csjq;
 /*!
  * jsTree 3.0.0
  * http://jstree.com/

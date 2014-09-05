@@ -198,7 +198,7 @@ function hhs_digital_media_syndication_form($form, &$form_state, stdClass $item 
     $path . '/html/css/hhs_digital_media_syndication.css',
   );
   $form['#attached']['js'] = array(
-    $path . '/html/js/jquery-1.9.1.js',
+    // $path . '/html/js/jquery-1.9.1.js',
     // $path . '/html/js/jquery-1.9.1-noconflict.js',
     // Removed b/c noconflict added directly to jquery js file b/c drupal.
     // Adding other js files between jquery and noconflict file causing errors.

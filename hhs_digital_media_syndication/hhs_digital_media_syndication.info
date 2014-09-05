@@ -1,4 +1,5 @@
 name = HHS Digital Media Syndication
 description = A block module for displaying HHS content
 core = 7.x
+dependencies[] = jquery_update
 configure = admin/config/content/hhs_digital_media_syndication
