@@ -27,12 +27,12 @@ function hhs_digital_media_syndication_admin_view() {
     );
   }
 
-  $page .= theme('table', 
+  $page .= theme('table',
     array(
       'header' => $header,
-      'rows' => $rows, 
-      'empty' => t('No syndication items found.  <a href="@link">Add Syndicated Item</a>.', 
-      array('@link' => url('admin/config/content/hhs_digital_media_syndication/add'))
+      'rows' => $rows,
+      'empty' => t('No syndication items found.  <a href="@link">Add Syndicated Item</a>.',
+      array('@link' => url('admin/config/content/hhs_digital_media_syndication/add')),
     )
   )
 );
@@ -41,11 +41,11 @@ function hhs_digital_media_syndication_admin_view() {
 }
 
 /**
- * Content synd Form, used for creating and editing hhs digital media syndication items
+ * Content synd Form, used for creating and editing hhs digital media syndication items.
  *
  * @see hhs_digital_media_syndication_menu()
  */
-function hhs_digital_media_syndication_form($form, &$form_state, stdClass $item = null) {
+function hhs_digital_media_syndication_form($form, &$form_state, stdClass $item = NULL) {
   $form['title'] = array(
     '#type' => 'textfield',
     '#title' => t('Title'),
@@ -58,7 +58,7 @@ function hhs_digital_media_syndication_form($form, &$form_state, stdClass $item 
   $form['content'] = array(
     '#type' => 'fieldset',
     '#title' => t('Select Content'),
-    '#collapsible' => false,
+    '#collapsible' => FALSE,
   );
   $form['content']['cdccs_source'] = array(
     '#type' => 'select',
@@ -66,7 +66,7 @@ function hhs_digital_media_syndication_form($form, &$form_state, stdClass $item 
     '#description' => t('Select the source for the content you wish to syndicate'),
     '#default_value' => '',
     '#options' => array(),
-    '#validated' => true,
+    '#validated' => TRUE
   );
   $form['content']['cdccs_sourceval'] = array(
     '#type' => 'hidden',
@@ -83,10 +83,10 @@ function hhs_digital_media_syndication_form($form, &$form_state, stdClass $item 
     '#type' => 'select',
     '#title' => t('Media Types'),
     '#description' => t('Select one or more media types to filter the list of titles'),
-    '#multiple' => true,
-    '#default_value' => '', 
+    '#multiple' => TRUE,
+    '#default_value' => '',
     '#options' => array(),
-    '#validated' => true,
+    '#validated' => TRUE,
   );
   $form['content']['cdccs_mediatypesval'] = array(
     '#type' => 'hidden',
@@ -104,7 +104,7 @@ function hhs_digital_media_syndication_form($form, &$form_state, stdClass $item 
     '#description' => t('Select a title to preview the syndicated content'),
     '#default_value' => '',
     '#options' => array(),
-    '#validated' => true,
+    '#validated' => TRUE,
   );
   $form['content']['cdccs_titleval'] = array(
     '#type' => 'hidden',
@@ -113,8 +113,8 @@ function hhs_digital_media_syndication_form($form, &$form_state, stdClass $item 
   $form['display'] = array(
     '#type' => 'fieldset',
     '#title' => t('Display Options'),
-    '#collapsible' => true,
-    '#collapsed' => true,
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
   );
   $form['display']['cdccs_stripimages'] = array(
     '#type' => 'checkbox',
@@ -199,7 +199,9 @@ function hhs_digital_media_syndication_form($form, &$form_state, stdClass $item 
   );
   $form['#attached']['js'] = array(
     $path . '/html/js/jquery-1.9.1.js',
-    //$path . '/html/js/jquery-1.9.1-noconflict.js', //Removed b/c noconflict added directly to jquery js file b/c drupal fwk adding other js files between jquery and noconflict file causing errors.
+    // $path . '/html/js/jquery-1.9.1-noconflict.js',
+    // Removed b/c noconflict added directly to jquery js file b/c drupal.
+    // Adding other js files between jquery and noconflict file causing errors.
     $path . '/html/js/jstree.js',
     $path . '/html/js/jquery.maskedinput.js',
     $path . '/html/js/hhs_digital_media_syndication.js',
@@ -209,8 +211,7 @@ function hhs_digital_media_syndication_form($form, &$form_state, stdClass $item 
 }
 
 /**
- * HHS Digital Media Synd Form validation handler
- *
+ * HHS Digital Media Synd Form validation handler.
  */
 function hhs_digital_media_syndication_form_validate($form, &$form_state) {
 }
@@ -221,7 +222,7 @@ function hhs_digital_media_syndication_form_validate($form, &$form_state) {
 function hhs_digital_media_syndication_form_submit($form, &$form_state) {
   $title = $form_state['values']['title'];
 
-  //Unset title to trigger deletion on save
+  // Unset title to trigger deletion on save.
   if ($form_state['values']['op'] == t('Delete')) {
     unset($form_state['values']['title']);
   }
@@ -252,3 +253,4 @@ function hhs_digital_media_syndication_form_submit($form, &$form_state) {
     drupal_set_message(t('The syndication item %title has been added.', array('%title' => $title)));
   }
 }
+

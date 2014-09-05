@@ -74,7 +74,8 @@ function hhs_digital_media_syndication_theme() {
       'render element' => 'element',
     ),
     'hhs_digital_media_syndication_item' => array(
-      'variables' => array('item' => NULL,),
+      'variables' => array(
+        'item' => NULL,),
     ),
   );
 }
@@ -85,7 +86,7 @@ function hhs_digital_media_syndication_theme() {
 function hhs_digital_media_syndication_block_info() {
   $blocks = array();
   $result = db_query('SELECT * from {hhs_digital_media_syndication_item} ORDER BY title');
-  foreach($result as $item) {
+  foreach ($result as $item) {
     $blocks['hhs_digital_media_syndication-' . $item->iid]['info'] = t('!title Syndicated Content', array('!title' => $item->title));
   }
   return $blocks;
@@ -99,31 +100,31 @@ function hhs_digital_media_syndication_block_info() {
 function hhs_digital_media_syndication_block_view($delta = '') {
   $block = array();
   list($type, $id) = explode('-', $delta);
-  switch($type) {
+  switch ($type) {
   case 'hhs_digital_media_syndication':
     if ($item = db_query('SELECT * FROM {hhs_digital_media_syndication_item} WHERE iid = :iid', array(':iid' => $id))->fetchObject()) {
       $block['subject'] = check_plain($item->title);
       $block['content'] = theme('hhs_digital_media_syndication_item', array('item' => $item));
-    } 
+    }
     break;
   }
   return $block;
 }
 
 /**
- * Returns HTML for content syndication embed item
+ * Returns HTML for content syndication embed item.
  */
 function theme_hhs_digital_media_syndication_item($variables) {
-  $item = $variables['item']; 
+  $item = $variables['item'];
   $id = $item->iid;
-  $embed_code = '<script>'; 
+  $embed_code = '<script>';
   $embed_code .= 'function mediaCallback_' . $id . '(response) {';
   $embed_code .= 'if (response && response.results) {';
   $embed_code .= 'jQuery(\'#' . $id . '\').html(response.results.content);';
-  if ($item->hide_title == true) {
+  if ($item->hide_title == TRUE) {
     $embed_code .= 'jQuery("span[id=\'cdc_title_' . $item->media_id . '\']").hide();';
   }
-  if ($item->hide_description == true) {
+  if ($item->hide_description == TRUE) {
     $embed_code .= 'jQuery("p[id=\'cdc_description_' . $item->media_id . '\']").hide();';
   }
   $embed_code .= '}';
@@ -148,14 +149,14 @@ function theme_hhs_digital_media_syndication_item($variables) {
  */
 function hhs_digital_media_syndication_element_info() {
   $types['hhs_digital_media_syndication_jstree'] = array(
-    '#input' => true,
-    //'#process' => array('hhs_digital_media_syndication_jstree_process'),
-    //'#element_validate' => array('hhs_digital_media_syndication_jstree_validate'),
+    '#input' => TRUE,
+    // '#process' => array('hhs_digital_media_syndication_jstree_process'),
+    // '#element_validate' => array('hhs_digital_media_syndication_jstree_validate'),
     '#theme' => 'hhs_digital_media_syndication_jstree',
     '#theme_wrappers' => array('form_element'),
   );
   $types['hhs_digital_media_syndication_preview'] = array(
-    '#input' => true,
+    '#input' => TRUE,
     '#theme' => 'hhs_digital_media_syndication_preview',
     '#theme_wrappers' => array('form_element'),
   );
@@ -163,7 +164,7 @@ function hhs_digital_media_syndication_element_info() {
 }
 
 /**
- * Theme function for hhs_digital_media_syndication_jstree form element
+ * Theme function for hhs_digital_media_syndication_jstree form element.
  */
 function theme_hhs_digital_media_syndication_jstree($variables) {
   $output = '<div id="' . $variables['element']['#name'] . '_control"></div>';
@@ -172,28 +173,28 @@ function theme_hhs_digital_media_syndication_jstree($variables) {
 }
 
 /**
- * Theme function for hhs_digital_media_syndication_preview form element
+ * Theme function for hhs_digital_media_syndication_preview form element.
  */
 function theme_hhs_digital_media_syndication_preview($variables) {
-  $output = '<div id="' . $variables['element']['#name'] .'_div"></div>';
+  $output = '<div id="' . $variables['element']['#name'] . '_div"></div>';
   $output .= '<input type="hidden" name="' . $variables['element']['#name'] . '" value="' . $variables['element']['#default_value'] . '"/>';
   return $output;
 }
 
 /**
- * Auto loader for hhs digital media syndication item edit menu
+ * Auto loader for hhs digital media syndication item edit menu.
  */
 function hhs_digital_media_syndication_item_load($iid) {
   $hhs_digital_media_syndication_items = &drupal_static(__FUNCTION__);
   if (!isset($hhs_digital_media_syndication_items[$iid])) {
-    $hhs_digital_media_syndication_items[$iid] = db_query('SELECT * FROM {hhs_digital_media_syndication_item} where iid = :iid', 
+    $hhs_digital_media_syndication_items[$iid] = db_query('SELECT * FROM {hhs_digital_media_syndication_item} where iid = :iid',
       array(':iid' => $iid))->fetchObject();
   }
   return $hhs_digital_media_syndication_items[$iid];
 }
 
 /**
- * Save hhs digital media syndication item
+ * Save hhs digital media syndication item.
  */
 function hhs_digital_media_syndication_item_save($item) {
   if (!empty($item['iid']) && !empty($item['title'])) {
@@ -202,7 +203,7 @@ function hhs_digital_media_syndication_item_save($item) {
       ->fields(array(
         'title' => $item['title'],
         'source' => $item['cdccs_sourceval'],
-        'from_date' => empty($item['cdccs_fromdate']) ? null : strtotime($item['cdccs_fromdate']),
+        'from_date' => empty($item['cdccs_fromdate']) ? NULL : strtotime($item['cdccs_fromdate']),
         'media_types' => implode(',', $item['cdccs_mediatypes']),
         'topics' => $item['cdccs_topictree'],
         'media_id' => $item['cdccs_titleval'],
@@ -228,7 +229,7 @@ function hhs_digital_media_syndication_item_save($item) {
       ->fields(array(
         'title' => $item['title'],
         'source' => $item['cdccs_sourceval'],
-        'from_date' => empty($item['cdccs_fromdate']) ? null : strtotime($item['cdccs_fromdate']),
+        'from_date' => empty($item['cdccs_fromdate']) ? NULL : strtotime($item['cdccs_fromdate']),
         'media_types' => implode(',', $item['cdccs_mediatypes']),
         'topics' => $item['cdccs_topictree'],
         'media_id' => $item['cdccs_titleval'],
@@ -245,3 +246,4 @@ function hhs_digital_media_syndication_item_save($item) {
       ->execute();
   }
 }
+

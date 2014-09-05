@@ -15,3 +15,4 @@ function hhs_digital_media_syndication_page_view($item) {
   $item_source = theme('hhs_digital_media_syndication_item', array('item' => $item));
   return $item_source;
 }
+
