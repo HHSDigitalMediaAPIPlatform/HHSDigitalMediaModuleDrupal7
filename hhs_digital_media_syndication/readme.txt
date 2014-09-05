@@ -18,10 +18,13 @@ This module depends on jquery_update module to be installed and enabled first.
 https://www.drupal.org/project/jquery_update is the project page.
 You also need to download the following 3rd party javascript libraries
 and put them in the <module_location>/html/js directory.
-* jstree.js (v 3.0.0) : http://www.jstree.com/#.
-* jquery.maskedinput.js (v 1.3.1) : http://digitalbush.com/projects/masked-input-plugin/#.
+* jstree.js (v 3.0.0) : 
+  * http://www.jstree.com/
+* jquery.maskedinput.js (v 1.3.1) : 
+  * http://digitalbush.com/projects/masked-input-plugin/
 
-Once installed you should find a new module type called *HHS Digital Media Syndication*, enable the module 
+Once installed you should find a new module type called 
+*HHS Digital Media Syndication*, enable the module 
 and configure to create pages and blocks of syndicated content.
 
 ## Use
