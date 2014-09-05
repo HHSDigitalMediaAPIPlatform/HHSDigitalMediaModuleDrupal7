@@ -2,6 +2,7 @@
  * @file
  * Javascript used by HHS Digital Media Syndication Module.
  */
+
 var CDCContentSynd = function() {
   "use strict";
 
@@ -32,7 +33,7 @@ var CDCContentSynd = function() {
   $csjq('script').each(function() {
     var src = $csjq(this).attr('src');
     if (src.indexOf('hhs_digital_media_syndication.js') >= 0) {
-      scriptPath = src.replace(/hhs_digital_media_syndication\.js.*?$/, ''); 
+      scriptPath = src.replace(/hhs_digital_media_syndication\.js.*?$/, '');
       return false;
     }
   });
@@ -69,8 +70,8 @@ var CDCContentSynd = function() {
     $csjq('input[name="cdccs_hidetitle"]').change(showHideContentTitleDesc);
     $csjq('input[name="cdccs_hidedescription"]').change(showHideContentTitleDesc);
     $csjq('select[name="cdccs_encoding"]').change(handleTitleChange);
-
-    handleSourceChange(); // To kick off loading of all fields based on previous saved settings.
+    // To kick off loading of all fields based on previous saved settings.
+    handleSourceChange();
   };
 
   var topicsCallback = function (response) {
@@ -120,7 +121,7 @@ var CDCContentSynd = function() {
             .text(response.results[i].name)
             .attr("selected", true));
       }
-      else { 
+      else {
         mediaTypesSelect.append($csjq("<option></option>")
             .attr("value", response.results[i].name)
             .text(response.results[i].name));
@@ -280,7 +281,7 @@ var CDCContentSynd = function() {
     if (configParams) {
       if (mediaUrl.indexOf("?") > 0) {
         mediaUrl = mediaUrl + "&" + configParams;
-      } 
+      }
       else {
         mediaUrl = mediaUrl + "?" + configParams;
       }
@@ -370,7 +371,7 @@ var CDCContentSynd = function() {
       delim = selectedSourceData.mediaByTopicsUrlTopicsDelim;
     }
 
-    // TODO: Replace {fromdate} in url with the selected from date.  
+    // TODO: Replace {fromdate} in url with the selected from date.
     // Need API that supports this first (CDC does not yet).
     var fromDate = $csjq('input[name="cdccs_fromdate"]').val();
 
@@ -425,7 +426,7 @@ var CDCContentSynd = function() {
 
   var parseFromDate = function (fromDate) {
     var parts = fromDate.match(/(\d+)-(\d+)-(\d+) (\d+):(\d+):(\d+)/);
-    return new Date( + parts[1], parts[2] - 1, + parts[3], + parts[4], + parts[5], + parts[6]);
+    return new Date(+ parts[1], parts[2] - 1, + parts[3], + parts[4], + parts[5], + parts[6]);
   };
 
   var htmlDecode = function (value) {
@@ -502,4 +503,3 @@ var CDCContentSynd = function() {
 $csjq(document).ready(function() {
   var cdcContentSynd = new CDCContentSynd();
 });
-

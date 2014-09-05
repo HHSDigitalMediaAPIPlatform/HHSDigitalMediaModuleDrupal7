@@ -17,10 +17,11 @@
  */
 function hhs_digital_media_syndication_help($path, $arg) {
   switch ($path) {
-  case "admin/help#hhs_digital_media_syndication":
-    return '<p>' . t("Displays HHS syndicated content") . '</p>';
-  case "admin/config/content/hhs_digital_media_syndication":
-    return '<p>' . t('HHS Digital Media syndicated content items you have created are listed below.  To create a new syndicated item click "Add Syndicated Item"') . '</p>';
+    case "admin/help#hhs_digital_media_syndication":
+      return '<p>' . t("Displays HHS syndicated content") . '</p>';
+
+    case "admin/config/content/hhs_digital_media_syndication":
+      return '<p>' . t('HHS Digital Media syndicated content items you have created are listed below.  To create a new syndicated item click "Add Syndicated Item"') . '</p>';
   }
 }
 
@@ -101,13 +102,13 @@ function hhs_digital_media_syndication_block_view($delta = '') {
   $block = array();
   list($type, $id) = explode('-', $delta);
   switch ($type) {
-  case 'hhs_digital_media_syndication':
-    if ($item = db_query('SELECT * FROM {hhs_digital_media_syndication_item} WHERE iid = :iid', array(':iid' => $id))->fetchObject()) {
-      $block['subject'] = check_plain($item->title);
-      $block['content'] = theme('hhs_digital_media_syndication_item', array('item' => $item));
+    case 'hhs_digital_media_syndication':
+      if ($item = db_query('SELECT * FROM {hhs_digital_media_syndication_item} WHERE iid = :iid', array(':iid' => $id))->fetchObject()) {
+        $block['subject'] = check_plain($item->title);
+        $block['content'] = theme('hhs_digital_media_syndication_item', array('item' => $item));
+      }
+      break;
     }
-    break;
-  }
   return $block;
 }
 
@@ -246,4 +247,3 @@ function hhs_digital_media_syndication_item_save($item) {
       ->execute();
   }
 }
-

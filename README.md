@@ -30,4 +30,3 @@ settings that affect the title selected will cause the preview to refresh.
 
 ## Getting Help
 For help with this module please contact [IMTech](mailto:imtech@cdc.gov)
-

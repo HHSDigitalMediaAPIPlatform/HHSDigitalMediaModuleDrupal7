@@ -2,4 +2,3 @@ name = HHS Digital Media Syndication
 description = A block module for displaying HHS content
 core = 7.x
 configure = admin/config/content/hhs_digital_media_syndication
-

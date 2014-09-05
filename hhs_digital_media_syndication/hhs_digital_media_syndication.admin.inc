@@ -217,7 +217,7 @@ function hhs_digital_media_syndication_form_validate($form, &$form_state) {
 }
 
 /**
- * HHS Digital Media Synd Form submit handler
+ * HHS Digital Media Synd Form submit handler.
  */
 function hhs_digital_media_syndication_form_submit($form, &$form_state) {
   $title = $form_state['values']['title'];
