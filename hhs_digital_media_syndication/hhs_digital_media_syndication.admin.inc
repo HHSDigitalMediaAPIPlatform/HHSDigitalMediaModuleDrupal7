@@ -32,10 +32,10 @@ function hhs_digital_media_syndication_admin_view() {
       'header' => $header,
       'rows' => $rows,
       'empty' => t('No syndication items found.  <a href="@link">Add Syndicated Item</a>.',
-      array('@link' => url('admin/config/content/hhs_digital_media_syndication/add')),
+        array('@link' => url('admin/config/content/hhs_digital_media_syndication/add'))
+      ),
     )
-  )
-);
+  );
 
   return $page;
 }
@@ -253,4 +253,3 @@ function hhs_digital_media_syndication_form_submit($form, &$form_state) {
     drupal_set_message(t('The syndication item %title has been added.', array('%title' => $title)));
   }
 }
-
