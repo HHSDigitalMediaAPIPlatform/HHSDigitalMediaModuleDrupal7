@@ -6,7 +6,8 @@
  */
 
 /**
- * Page callback: Displays the hhs digital media syndication module administration page.
+ * Page callback: Displays the hhs digital media syndication 
+ * module administration page.
  *
  * @return string
  *   A HTML-formatted string with administration page content.
@@ -41,7 +42,8 @@ function hhs_digital_media_syndication_admin_view() {
 }
 
 /**
- * Content synd Form, used for creating and editing hhs digital media syndication items.
+ * Content synd Form, used for creating and editing hhs digital media 
+ * syndication items.
  *
  * @see hhs_digital_media_syndication_menu()
  */
@@ -66,7 +68,7 @@ function hhs_digital_media_syndication_form($form, &$form_state, stdClass $item 
     '#description' => t('Select the source for the content you wish to syndicate'),
     '#default_value' => '',
     '#options' => array(),
-    '#validated' => TRUE
+    '#validated' => TRUE,
   );
   $form['content']['cdccs_sourceval'] = array(
     '#type' => 'hidden',
