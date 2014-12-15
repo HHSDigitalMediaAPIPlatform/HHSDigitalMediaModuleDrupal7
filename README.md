@@ -23,9 +23,11 @@ and put them in the <module_location>/html/js directory.
     * http://www.jstree.com/
   * jquery.maskedinput.js (v 1.3.1) : 
     * http://digitalbush.com/projects/masked-input-plugin/
+  * jquery-ui.js (v 1.8 or higher)
 3. As part of the jstree library please add the jstree style.css file
 to <module_location>/html/css and rename the file treestyle.css if
 it is not already named treestyle.css.
+4. Add jquery-ui.css (v 1.8 or higher) to <module_location>/html/css
 
 Once installed you should find a new module type called 
 *HHS Digital Media Syndication*, enable the module 
