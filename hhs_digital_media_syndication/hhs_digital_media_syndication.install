@@ -105,6 +105,19 @@ function hhs_digital_media_syndication_schema() {
         'not null' => FALSE,
         'description' => 'boolean option to hide description if returned in syndicated markup',
       ),
+      'search_type' => array(
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => '0',
+        'description' => 'search type, either by metadata or url'
+      ),
+      'search_url' => array(
+        'type' => 'varchar',
+        'length' => 1000,
+        'not null' => FALSE,
+        'default' => '',
+        'description' => 'Url selected in search by url field'
+      ),
     ),
     'primary key' => array('iid'),
     'unique keys' => array(

@@ -59,12 +59,12 @@ function hhs_digital_media_syndication_form($form, &$form_state, stdClass $item 
     '#description' => t('The title of the syndicated item.'),
     '#required' => TRUE,
   );
-  $form['content'] = array(
+  $form['source'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Select Content'),
+    '#title' => t('Select Content Source'),
     '#collapsible' => FALSE,
   );
-  $form['content']['cdccs_source'] = array(
+  $form['source']['cdccs_source'] = array(
     '#type' => 'select',
     '#title' => t('Source'),
     '#description' => t('Select the source for the content you wish to syndicate'),
@@ -72,18 +72,36 @@ function hhs_digital_media_syndication_form($form, &$form_state, stdClass $item 
     '#options' => array(),
     '#validated' => TRUE,
   );
-  $form['content']['cdccs_sourceval'] = array(
+  $form['search_type_grp'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Select Search Type'),
+    '#collapsible' => FALSE,
+  );
+  $form['search_type_grp']['cdcs_searchtype'] = array(
+    '#type' => 'radios',
+    '#title' => t('Search By'),
+    '#default_value' => isset($item->search_type) ? $item->search_type : 0,
+    '#options' => array(0 => t('Metadata'), 1 => t('Url')),
+    '#description' => t('Search by metadata, or search by url'),
+  );
+  $form['metadata_grp'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Search By Metadata'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+  $form['metadata_grp']['cdccs_sourceval'] = array(
     '#type' => 'hidden',
     '#default_value' => isset($item->source) ? $item->source : '',
   );
-  $form['content']['cdccs_fromdate'] = array(
+  $form['metadata_grp']['cdccs_fromdate'] = array(
     '#type' => 'textfield',
     '#title' => t('From Date'),
     '#default_value' => isset($item->from_date) ? format_date($item->from_date, 'custom', 'm/d/Y') : '',
     '#size' => 20,
     '#description' => t('Only show titles modified after this date'),
   );
-  $form['content']['cdccs_mediatypes'] = array(
+  $form['metadata_grp']['cdccs_mediatypes'] = array(
     '#type' => 'select',
     '#title' => t('Media Types'),
     '#description' => t('Select one or more media types to filter the list of titles'),
@@ -92,17 +110,17 @@ function hhs_digital_media_syndication_form($form, &$form_state, stdClass $item 
     '#options' => array(),
     '#validated' => TRUE,
   );
-  $form['content']['cdccs_mediatypesval'] = array(
+  $form['metadata_grp']['cdccs_mediatypesval'] = array(
     '#type' => 'hidden',
     '#default_value' => isset($item->media_types) ? $item->media_types : '',
   );
-  $form['content']['cdccs_topictree'] = array(
+  $form['metadata_grp']['cdccs_topictree'] = array(
     '#type' => 'hhs_digital_media_syndication_jstree',
     '#title' => t('Topics'),
     '#default_value' => isset($item->topics) ? $item->topics : '',
     '#description' => t('Select one or more topics to filter the list of titles'),
   );
-  $form['content']['cdccs_title'] = array(
+  $form['metadata_grp']['cdccs_title'] = array(
     '#type' => 'select',
     '#title' => t('Title'),
     '#description' => t('Select a title to preview the syndicated content'),
@@ -110,9 +128,23 @@ function hhs_digital_media_syndication_form($form, &$form_state, stdClass $item 
     '#options' => array(),
     '#validated' => TRUE,
   );
-  $form['content']['cdccs_titleval'] = array(
+  $form['metadata_grp']['cdccs_titleval'] = array(
     '#type' => 'hidden',
     '#default_value' => isset($item->media_id) ? $item->media_id : '',
+  );
+  $form['url_grp'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Display Options'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+  $form['url_grp']['cdccs_url'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Url Contains'),
+    '#default_value' => isset($item->url) ? $item->url : '',
+    '#size' => 100,
+    '#maxlength' => 1000,
+    '#description' => t('Search for syndicated content with urls containing this text.  Results limited to 30 items'),
   );
   $form['display'] = array(
     '#type' => 'fieldset',
@@ -199,11 +231,13 @@ function hhs_digital_media_syndication_form($form, &$form_state, stdClass $item 
   $path = drupal_get_path('module', 'hhs_digital_media_syndication');
   $form['#attached']['css'] = array(
     $path . '/html/css/treestyle.css',
+    $path . '/html/css/jquery-ui.css',
     $path . '/html/css/hhs_digital_media_syndication.css',
   );
   $form['#attached']['js'] = array(
     $path . '/html/js/jstree.js',
     $path . '/html/js/jquery.maskedinput.js',
+    $path . '/html/js/jquery-ui.js',
     $path . '/html/js/hhs_digital_media_syndication.js',
   );
 
