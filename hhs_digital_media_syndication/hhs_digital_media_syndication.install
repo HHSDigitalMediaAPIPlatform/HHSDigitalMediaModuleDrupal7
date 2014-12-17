@@ -130,13 +130,13 @@ function hhs_digital_media_syndication_schema() {
 
 function hhs_digital_media_syndication_update_7200() {
   $ret = array();
-  db_add_field($ret, 'hhs_digital_media_syndication_item', 'search_type', array(
+  db_add_field('hhs_digital_media_syndication_item', 'search_type', array(
     'type' => 'int',
     'not null' => FALSE,
     'default' => '0',
     'description' => 'search type, either by metadata or url',
   ));
-  db_add_field($ret, 'hhs_digital_media_syndication_item', 'search_url', array(
+  db_add_field('hhs_digital_media_syndication_item', 'search_url', array(
     'type' => 'varchar',
     'length' => 1000,
     'not null' => FALSE,
