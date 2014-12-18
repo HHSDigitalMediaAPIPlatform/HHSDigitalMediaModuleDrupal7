@@ -77,7 +77,7 @@ function hhs_digital_media_syndication_form($form, &$form_state, stdClass $item 
     '#title' => t('Select Search Type'),
     '#collapsible' => FALSE,
   );
-  $form['search_type_grp']['cdcs_searchtype'] = array(
+  $form['search_type_grp']['cdccs_searchtype'] = array(
     '#type' => 'radios',
     '#title' => t('Search By'),
     '#default_value' => isset($item->search_type) ? $item->search_type : 0,
@@ -88,7 +88,7 @@ function hhs_digital_media_syndication_form($form, &$form_state, stdClass $item 
     '#type' => 'fieldset',
     '#title' => t('Search By Metadata'),
     '#collapsible' => TRUE,
-    '#collapsed' => TRUE,
+    '#collapsed' => FALSE,
   );
   $form['metadata_grp']['cdccs_sourceval'] = array(
     '#type' => 'hidden',
@@ -134,7 +134,7 @@ function hhs_digital_media_syndication_form($form, &$form_state, stdClass $item 
   );
   $form['url_grp'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Display Options'),
+    '#title' => t('Search By Url'),
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
   );
@@ -182,17 +182,82 @@ function hhs_digital_media_syndication_form($form, &$form_state, stdClass $item 
     '#description' => t('Strip inline styles from returned content'),
     '#default_value' => isset($item->strip_inline_styles) ? $item->strip_inline_styles : '',
   );
-  $form['display']['cdccs_hidetitle'] = array(
+  $form['display']['cdccs_stripbreaks'] = array(
     '#type' => 'checkbox',
-    '#title' => t('Hide Content Title'),
-    '#description' => t('Hide title if present in syndicated content'),
-    '#default_value' => isset($item->hide_title) ? $item->hide_title : '',
+    '#title' => t('Strip Line Breaks'),
+    '#description' => t('Strip line breaks from returned content'),
+    '#default_value' => isset($item->strip_breaks) ? $item->strip_breaks : '',
   );
-  $form['display']['cdccs_hidedescription'] = array(
+  $form['display']['cdccs_imagefloat'] = array(
+    '#type' => 'select',
+    '#title' => t('Image Float'),
+    '#description' => t('CSS float option for images in returned html content'),
+    '#default_value' => isset($item->image_float) ? $item->image_float : '',
+    '#options' => array(
+      '' => t('Default'),
+      'left' => t('Left'),
+      'right' => t('Right'),
+    ),
+  );
+  $form['display']['cdccs_cssclasses'] = array(
+    '#type' => 'textfield',
+    '#title' => t('CSS Classes (comma separated)'),
+    '#default_value' => isset($item->css_classes) ? $item->css_classes : '',
+    '#size' => 100,
+    '#maxlength' => 1024,
+    '#description' => t('Comma separated list of CSS classes.  Only content within elements with these classes will be returned.'),
+  );
+  $form['display']['cdccs_ids'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Element Ids (comma separated)'),
+    '#default_value' => isset($item->element_ids) ? $item->element_ids : '',
+    '#size' => 100,
+    '#maxlength' => 1024,
+    '#description' => t('Comma separated list of element Ids.  Only content within elements with these Ids will be returned.'),
+  );
+  $form['display']['cdccs_xpath'] = array(
+    '#type' => 'textfield',
+    '#title' => t('XPath'),
+    '#default_value' => isset($item->xpath) ? $item->xpath : '',
+    '#size' => 100,
+    '#maxlength' => 1024,
+    '#description' => t('An xpath statement defining what should be retrieved from the content.'),
+  );
+  $form['display']['cdccs_namespace'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Namespace Prefix'),
+    '#default_value' => isset($item->namespace) ? $item->namespace : '',
+    '#size' => 100,
+    '#maxlength' => 128,
+    '#description' => t('Used to decorate (prefix) the tags and ids in the results to prevent conflict with existing host page elements.'),
+  );
+  $form['display']['cdccs_linkssamewindow'] = array(
     '#type' => 'checkbox',
-    '#title' => t('Hide Content Description'),
-    '#description' => t('Hide description if present in syndicated content'),
-    '#default_value' => isset($item->hide_description) ? $item->hide_description : '',
+    '#title' => t('Links Open Same Window'),
+    '#description' => t('Check to open in same window (default is new window)'),
+    '#default_value' => isset($item->links_same_window) ? $item->links_same_window : '',
+  );
+  $form['display']['cdccs_width'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Width'),
+    '#default_value' => isset($item->width) ? $item->width : '',
+    '#size' => 25,
+    '#maxlength' => 8,
+    '#description' => t('Set the width of various media types'),
+  );
+  $form['display']['cdccs_height'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Height'),
+    '#default_value' => isset($item->height) ? $item->height : '',
+    '#size' => 25,
+    '#maxlength' => 8,
+    '#description' => t('Set the height of various media types'),
+  );
+  $form['display']['cdccs_https'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Use HTTPS'),
+    '#description' => t('If checked, the calls to the source to fetch the content for embedding will use https rather than http.'),
+    '#default_value' => isset($item->https) ? $item->https : '',
   );
   $form['display']['cdccs_encoding'] = array(
     '#type' => 'select',
@@ -231,14 +296,15 @@ function hhs_digital_media_syndication_form($form, &$form_state, stdClass $item 
   $path = drupal_get_path('module', 'hhs_digital_media_syndication');
   $form['#attached']['css'] = array(
     $path . '/html/css/treestyle.css',
-    $path . '/html/css/jquery-ui.css',
     $path . '/html/css/hhs_digital_media_syndication.css',
   );
   $form['#attached']['js'] = array(
     $path . '/html/js/jstree.js',
     $path . '/html/js/jquery.maskedinput.js',
-    $path . '/html/js/jquery-ui.js',
     $path . '/html/js/hhs_digital_media_syndication.js',
+  );
+  $form['#attached']['library'] = array(
+    array('system', 'ui.autocomplete'),
   );
 
   return $form;

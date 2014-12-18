@@ -118,6 +118,70 @@ function hhs_digital_media_syndication_schema() {
         'default' => '',
         'description' => 'Url selected in search by url field',
       ),
+      'strip_breaks' => array(
+        'type' => 'int',
+        'not null' => FALSE,
+        'description' => 'boolean option to strip line breaks from returned content',
+      ),
+      'image_float' => array(
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => FALSE,
+        'default' => '',
+        'description' => 'CSS float option for images in returned html content',
+      ),
+      'css_classes' => array(
+        'type' => 'varchar',
+        'length' => 1024,
+        'not null' => FALSE,
+        'default' => '',
+        'description' => 'Comma separated list of CSS classes.  Only content within elements with these classes will be returned.',
+      ),
+      'element_ids' => array(
+        'type' => 'varchar',
+        'length' => 1024,
+        'not null' => FALSE,
+        'default' => '',
+        'description' => 'Comma separated list of element Ids.  Only content within elements with these Ids will be returned.',
+      ),
+      'xpath' => array(
+        'type' => 'varchar',
+        'length' => 1024,
+        'not null' => FALSE,
+        'default' => '',
+        'description' => 'An xpath statement defining what should be retrieved from the content.',
+      ),
+      'namespace' => array(
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => FALSE,
+        'default' => '',
+        'description' => 'Used to decorate (prefix) the tags and ids in the results to prevent conflict with existing host page elements.',
+      ),
+      'links_same_window' => array(
+        'type' => 'int',
+        'not null' => FALSE,
+        'description' => 'boolean option for links to open in same window (default is new window)',
+      ),
+      'width' => array(
+        'type' => 'varchar',
+        'length' => 8,
+        'not null' => FALSE,
+        'default' => '',
+        'description' => 'Set the width of various media types',
+      ),
+      'height' => array(
+        'type' => 'varchar',
+        'length' => 8,
+        'not null' => FALSE,
+        'default' => '',
+        'description' => 'Set the height of various media types',
+      ),
+      'https' => array(
+        'type' => 'int',
+        'not null' => FALSE,
+        'description' => 'If true the calls to the source to fetch the content for embedding will use https rather than http.',
+      ),
     ),
     'primary key' => array('iid'),
     'unique keys' => array(
@@ -142,6 +206,74 @@ function hhs_digital_media_syndication_update_7200() {
     'not null' => FALSE,
     'default' => '',
     'description' => 'Url selected in search by url field',
+  ));
+  return $ret;
+}
+function hhs_digital_media_syndication_update_7201() {
+  $ret = array();
+  db_add_field('hhs_digital_media_syndication_item', 'strip_breaks', array(
+    'type' => 'int',
+    'not null' => FALSE,
+    'description' => 'boolean option to strip line breaks from returned content',
+  ));
+  db_add_field('hhs_digital_media_syndication_item', 'image_float', array(
+    'type' => 'varchar',
+    'length' => 32,
+    'not null' => FALSE,
+    'default' => '',
+    'description' => 'CSS float option for images in returned html content',
+  ));
+  db_add_field('hhs_digital_media_syndication_item', 'css_classes', array(
+    'type' => 'varchar',
+    'length' => 1024,
+    'not null' => FALSE,
+    'default' => '',
+    'description' => 'Comma separated list of CSS classes.  Only content within elements with these classes will be returned.',
+  ));
+  db_add_field('hhs_digital_media_syndication_item', 'element_ids', array(
+    'type' => 'varchar',
+    'length' => 1024,
+    'not null' => FALSE,
+    'default' => '',
+    'description' => 'Comma separated list of element Ids.  Only content within elements with these Ids will be returned.',
+  ));
+  db_add_field('hhs_digital_media_syndication_item', 'xpath', array(
+    'type' => 'varchar',
+    'length' => 1024,
+    'not null' => FALSE,
+    'default' => '',
+    'description' => 'An xpath statement defining what should be retrieved from the content.',
+  ));
+  db_add_field('hhs_digital_media_syndication_item', 'namespace', array(
+    'type' => 'varchar',
+    'length' => 128,
+    'not null' => FALSE,
+    'default' => '',
+    'description' => 'Used to decorate (prefix) the tags and ids in the results to prevent conflict with existing host page elements.',
+  ));
+  db_add_field('hhs_digital_media_syndication_item', 'links_same_window', array(
+    'type' => 'int',
+    'not null' => FALSE,
+    'description' => 'boolean option for links to open in same window (default is new window)',
+  ));
+  db_add_field('hhs_digital_media_syndication_item', 'width', array(
+    'type' => 'varchar',
+    'length' => 8,
+    'not null' => FALSE,
+    'default' => '',
+    'description' => 'Set the width of various media types',
+  ));
+  db_add_field('hhs_digital_media_syndication_item', 'height', array(
+    'type' => 'varchar',
+    'length' => 8,
+    'not null' => FALSE,
+    'default' => '',
+    'description' => 'Set the height of various media types',
+  ));
+  db_add_field('hhs_digital_media_syndication_item', 'https', array(
+    'type' => 'int',
+    'not null' => FALSE,
+    'description' => 'If true the calls to the source to fetch the content for embedding will use https rather than http.',
   ));
   return $ret;  
 }
