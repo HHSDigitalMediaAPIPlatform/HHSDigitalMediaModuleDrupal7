@@ -182,6 +182,13 @@ function hhs_digital_media_syndication_schema() {
         'not null' => FALSE,
         'description' => 'If true the calls to the source to fetch the content for embedding will use https rather than http.',
       ),
+      'url_media_id' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+        'default' => '',
+        'description' => 'Selected media unique identifier for syndication, from url search type',
+      ),
     ),
     'primary key' => array('iid'),
     'unique keys' => array(
@@ -276,4 +283,15 @@ function hhs_digital_media_syndication_update_7201() {
     'description' => 'If true the calls to the source to fetch the content for embedding will use https rather than http.',
   ));
   return $ret;  
+}
+function hhs_digital_media_syndication_update_7202() {
+  $ret = array();
+  db_add_field('hhs_digital_media_syndication_item', 'url_media_id', array(
+    'type' => 'varchar',
+    'length' => 255,
+    'not null' => FALSE,
+    'default' => '',
+    'description' => 'Selected media unique identifier for syndication, from url search type',
+  ));
+  return $ret;
 }

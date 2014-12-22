@@ -201,6 +201,7 @@ function hhs_digital_media_syndication_item_save($item) {
         'media_types' => implode(',', $item['cdccs_mediatypes']),
         'topics' => $item['cdccs_topictree'],
         'media_id' => $item['cdccs_titleval'],
+        'url_media_id' => $item['cdccs_urlmediaidval'],
         'syndication_url' => $item['cdccs_preview'],
         'strip_images' => $item['cdccs_stripimages'],
         'strip_scripts' => $item['cdccs_stripscripts'],
@@ -216,7 +217,10 @@ function hhs_digital_media_syndication_item_save($item) {
         'links_same_window' => $item['cdccs_linkssamewindow'],
         'width' => $item['cdccs_width'],
         'height' => $item['cdccs_height'],
+        'https' => $item['cdccs_https'],
         'encoding' => $item['cdccs_encoding'],
+        'search_type' => $item['cdccs_searchtype'],
+        'search_url' => $item['cdccs_url'],
       ))
       ->execute();
   }
@@ -234,6 +238,7 @@ function hhs_digital_media_syndication_item_save($item) {
         'media_types' => implode(',', $item['cdccs_mediatypes']),
         'topics' => $item['cdccs_topictree'],
         'media_id' => $item['cdccs_titleval'],
+        'url_media_id' => $item['cdccs_urlmediaidval'],
         'syndication_url' => $item['cdccs_preview'],
         'strip_images' => $item['cdccs_stripimages'],
         'strip_scripts' => $item['cdccs_stripscripts'],
@@ -249,7 +254,10 @@ function hhs_digital_media_syndication_item_save($item) {
         'links_same_window' => $item['cdccs_linkssamewindow'],
         'width' => $item['cdccs_width'],
         'height' => $item['cdccs_height'],
+        'https' => $item['cdccs_https'],
         'encoding' => $item['cdccs_encoding'],
+        'search_type' => $item['cdccs_searchtype'],
+        'search_url' => $item['cdccs_url'],
       ))
       ->execute();
   }

@@ -87,7 +87,7 @@ var CDCContentSynd = function() {
     // To kick off loading of all fields based on previous saved settings.
     handleSourceChange();
     initUrlSearchField();
-    if (isUrlSearchType) {
+    if (isUrlSearchType()) {
       handleSearchTypeChange();
     }
   };
@@ -639,6 +639,16 @@ var CDCContentSynd = function() {
   var handleSearchTypeChange = function() {
       jQuery('fieldset[id="edit-metadata-grp"] a.fieldset-title').trigger('click');
       jQuery('fieldset[id="edit-url-grp"] a.fieldset-title').trigger('click');
+      var mediaIdToLoad = '';
+      if (isUrlSearchType()) {
+        mediaIdToLoad = jQuery('input[name="cdccs_urlmediaidval"]').val();
+      }
+      else {
+        mediaIdToLoad = jQuery('input[name="cdccs_titleval"]').val();
+      }
+      if (mediaIdToLoad != '') {
+        loadPreviewForMediaId(mediaIdToLoad);
+      }
   }
 
   //############## End New For Version 2.0

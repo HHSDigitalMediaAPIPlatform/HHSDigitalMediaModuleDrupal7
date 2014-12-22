@@ -141,10 +141,14 @@ function hhs_digital_media_syndication_form($form, &$form_state, stdClass $item 
   $form['url_grp']['cdccs_url'] = array(
     '#type' => 'textfield',
     '#title' => t('Url Contains'),
-    '#default_value' => isset($item->url) ? $item->url : '',
+    '#default_value' => isset($item->search_url) ? $item->search_url : '',
     '#size' => 100,
     '#maxlength' => 1000,
     '#description' => t('Search for syndicated content with urls containing this text.  Results limited to 30 items'),
+  );
+  $form['url_grp']['cdccs_urlmediaidval'] = array(
+    '#type' => 'hidden',
+    '#default_value' => isset($item->url_media_id) ? $item->url_media_id : '',
   );
   $form['display'] = array(
     '#type' => 'fieldset',
