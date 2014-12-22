@@ -85,8 +85,11 @@ var CDCContentSynd = function() {
     jQuery('input[name="cdccs_https"]').change(handleDisplayOptionChange);
     jQuery('input[name="cdccs_searchtype"]').change(handleSearchTypeChange);
     // To kick off loading of all fields based on previous saved settings.
-    initUrlSearchField();
     handleSourceChange();
+    initUrlSearchField();
+    if (isUrlSearchType) {
+      handleSearchTypeChange();
+    }
   };
 
   var topicsCallback = function (response) {
@@ -287,7 +290,9 @@ var CDCContentSynd = function() {
       clearPreview();
       return;
     }
-    loadPreviewForMediaId(previewMediaId);
+    if (isMetadataSearchType()) {
+      loadPreviewForMediaId(previewMediaId);
+    }
   };
 
   var getConfigureParamsAsQueryString = function () {
@@ -512,6 +517,12 @@ var CDCContentSynd = function() {
 
   //############## Start New For Version 2.0
   var initUrlSearchField = function() {
+    if (isUrlSearchType()) {
+      var urlMediaIdVal = jQuery('input[name="cdccs_urlmediaidval"]').val();
+      if (urlMediaIdVal != '') {
+        loadPreviewForMediaId(urlMediaIdVal);
+      }
+    }
     jQuery('input[name="cdccs_url"]').autocomplete({
       source: function (req, add) {
         //TODO: Need better method for not making ajax calls based on a number of 'too generic' urls like http:// http://www.cdc.gov, http://www, etc. Maybe some regex?
@@ -570,6 +581,7 @@ var CDCContentSynd = function() {
 
     if (previewMediaId !== '') {
       loadPreviewForMediaId(previewMediaId);
+      jQuery('input[name="cdccs_urlmediaidval"]').val(previewMediaId);
     }
     return false;
   };
@@ -606,21 +618,27 @@ var CDCContentSynd = function() {
     }); 
   }
 
+  var isMetadataSearchType = function() {
+    if (jQuery('input[name="cdccs_searchtype"]:checked').val() == '0') {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+  var isUrlSearchType = function() {
+    if (jQuery('input[name="cdccs_searchtype"]:checked').val() == '1') {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
   var handleSearchTypeChange = function() {
       jQuery('fieldset[id="edit-metadata-grp"] a.fieldset-title').trigger('click');
       jQuery('fieldset[id="edit-url-grp"] a.fieldset-title').trigger('click');
-    /**
-    var searchTypeVal = jQuery(this).val();
-    if (jQuery(this).is(':checked') && searchTypeVal === 'metadata') {
-      //jQuery('#searchbymetadata').show();
-      //jQuery('#searchbyurl').hide();
-      jQuery('fieldset[id="edit-metadata-grp"] a.fieldset-title').trigger('click');
-    } 
-    else if (jQuery(this).is(':checked') && searchTypeVal === 'url') {
-      jQuery('#searchbymetadata').hide();
-      jQuery('#searchbyurl').show();
-    }
-    */
   }
 
   //############## End New For Version 2.0
