@@ -284,14 +284,14 @@ var CDCContentSynd = function() {
   };
 
   var handleTitleChange = function () {
-    previewMediaId = jQuery('select[name="cdccs_title"] option:selected').val();
-    jQuery('input[name="cdccs_titleval"]').val(previewMediaId);
-    if (previewMediaId === "") {
+    var mediaId = jQuery('select[name="cdccs_title"] option:selected').val();
+    jQuery('input[name="cdccs_titleval"]').val(mediaId);
+    if (mediaId === "") {
       clearPreview();
       return;
     }
     if (isMetadataSearchType()) {
-      loadPreviewForMediaId(previewMediaId);
+      loadPreviewForMediaId(mediaId);
     }
   };
 
@@ -576,12 +576,12 @@ var CDCContentSynd = function() {
   var handleUrlSelect = function(event, ui) {
     event.preventDefault();
     var urlField = jQuery('input[name="cdccs_url"]');
-    previewMediaId = ui.item.value;
+    var mediaId = ui.item.value;
     urlField.val(ui.item.label);
 
-    if (previewMediaId !== '') {
-      loadPreviewForMediaId(previewMediaId);
-      jQuery('input[name="cdccs_urlmediaidval"]').val(previewMediaId);
+    if (mediaId !== '') {
+      loadPreviewForMediaId(mediaId);
+      jQuery('input[name="cdccs_urlmediaidval"]').val(mediaId);
     }
     return false;
   };
@@ -592,6 +592,7 @@ var CDCContentSynd = function() {
 
   var loadPreviewForMediaId = function(mediaId) {
     loadingPreview(true);
+    previewMediaId = mediaId;
     var mediaUrl = selectedSourceData.mediaUrl;
     if (jQuery('input[name="cdccs_https"]').prop('checked')) {
       mediaUrl = selectedSourceData.mediaUrlHttps;
@@ -647,7 +648,6 @@ var CDCContentSynd = function() {
         mediaIdToLoad = jQuery('input[name="cdccs_titleval"]').val();
       }
       if (mediaIdToLoad != '') {
-        previewMediaId = mediaIdToLoad
         loadPreviewForMediaId(mediaIdToLoad);
       }
   }
