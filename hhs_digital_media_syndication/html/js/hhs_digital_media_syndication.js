@@ -647,6 +647,7 @@ var CDCContentSynd = function() {
         mediaIdToLoad = jQuery('input[name="cdccs_titleval"]').val();
       }
       if (mediaIdToLoad != '') {
+        previewMediaId = mediaIdToLoad
         loadPreviewForMediaId(mediaIdToLoad);
       }
   }
